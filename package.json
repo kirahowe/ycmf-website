@@ -1,0 +1,24 @@
+{
+  "name": "ycmf-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "tina:dev": "tinacms dev -c \"astro dev\"",
+    "tina:build": "tinacms build && astro build"
+  },
+  "dependencies": {
+    "astro": "^4.5.0",
+    "tinacms": "^1.6.0",
+    "graphql": "^16.8.1"
+  },
+  "devDependencies": {
+    "@tinacms/cli": "^1.6.0",
+    "@types/node": "^20.11.30",
+    "typescript": "^5.4.0"
+  }
+}

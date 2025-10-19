@@ -1,0 +1,131 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  events: CollectionEntry<"events">[];
+}
+
+const { events } = Astro.props;
+---
+
+<div class="event-grid">
+  {events.map((event) => (
+    <article class="event-card">
+      <header>
+        <p class="event-date">{new Date(event.data.date).toLocaleDateString("en-CA", { weekday: "short", month: "short", day: "numeric" })}</p>
+        <h3>{event.data.title}</h3>
+        {event.data.description && <p class="event-description">{event.data.description}</p>}
+      </header>
+      <dl>
+        {event.data.time && (
+          <>
+            <dt>Time</dt>
+            <dd>{event.data.time}</dd>
+          </>
+        )}
+        {event.data.location && (
+          <>
+            <dt>Location</dt>
+            <dd>{event.data.location}</dd>
+          </>
+        )}
+        {event.data.price && (
+          <>
+            <dt>Price</dt>
+            <dd>{event.data.price}</dd>
+          </>
+        )}
+      </dl>
+      {event.data.body && (
+        <div class="event-body">
+          <p>{event.data.body}</p>
+        </div>
+      )}
+      {event.data.program && (
+        <div class="program">
+          <h4>Program Highlights</h4>
+          <ul>
+            {event.data.program.map((item) => (
+              <li>
+                <strong>{item.work}</strong>
+                {item.composer && <span> by {item.composer}</span>}
+                {item.performers && <span> — {item.performers}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </article>
+  ))}
+</div>
+
+<style>
+  .event-grid {
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .event-card {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1.75rem;
+    box-shadow: 0 12px 30px rgba(20, 54, 93, 0.08);
+  }
+
+  .event-date {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4c6480;
+  }
+
+  .event-card h3 {
+    margin: 0.35rem 0 0.75rem;
+    font-family: "Playfair Display", serif;
+    font-size: 1.65rem;
+  }
+
+  .event-description {
+    margin: 0 0 1.25rem;
+    color: #526176;
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.25rem 0.75rem;
+    margin: 0 0 1.5rem;
+  }
+
+  dt {
+    font-weight: 600;
+    color: #14365d;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .event-body :global(p) {
+    margin: 0 0 1rem;
+    color: #424c5a;
+  }
+
+  .event-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .program h4 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+  }
+
+  .program ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: #424c5a;
+  }
+</style>

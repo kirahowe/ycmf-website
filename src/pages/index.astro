@@ -1,0 +1,192 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EventList from "../components/EventList.astro";
+import type { CollectionEntry } from "astro:content";
+import { getEntryBySlug, getCollection } from "astro:content";
+
+let page = await getEntryBySlug<CollectionEntry<"pages">>("pages", "home");
+const events = await getCollection("events");
+const sortedEvents = events.sort((a, b) => new Date(a.data.date).getTime() - new Date(b.data.date).getTime());
+
+if (!page) {
+  throw new Error("Home page content missing at src/content/pages/home.md");
+}
+
+let tinaData: CollectionEntry<"pages">["data"] | undefined = page.data;
+
+try {
+  const tinaClientModule = await import("../tina/__generated__/client");
+  if (tinaClientModule?.client?.queries?.pages) {
+    const response = await tinaClientModule.client.queries.pages({
+      relativePath: "home.md"
+    });
+    tinaData = response?.data?.pages ?? tinaData;
+  }
+} catch (error) {
+  // Tina client not generated yet; fall back to Astro content data.
+}
+---
+
+<BaseLayout title={tinaData?.title} description={tinaData?.intro}>
+  <section class="hero">
+    <div class="container">
+      <h1>{tinaData?.title}</h1>
+      {tinaData?.tagline && <p class="tagline">{tinaData.tagline}</p>}
+      {tinaData?.intro && <p class="intro">{tinaData.intro}</p>}
+      {tinaData?.cta && (
+        <p class="cta">
+          <a href={tinaData.cta.link} class="button">{tinaData.cta.label}</a>
+        </p>
+      )}
+      {tinaData?.highlights && (
+        <div class="highlights">
+          {tinaData.highlights.map((item) => (
+            <div class="highlight-card">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section id="schedule" class="schedule">
+    <div class="container">
+      <header>
+        <h2>Festival Schedule</h2>
+        <p>Explore kitchen parties, open rehearsals, waterfront conversations, and immersive evening concerts.</p>
+      </header>
+      <EventList events={sortedEvents} />
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="container">
+      <h2>About the Festival</h2>
+      <p>
+        The Yarmouth Chamber Music Festival is modeled after the Newburyport Chamber Music Festival,
+        bringing the magic of close-up chamber music to Nova Scotia's southern shore. Over ten days,
+        audiences experience informal kitchen parties, public rehearsals, waterfront panels, and
+        transformative evening concerts.
+      </p>
+      <p>
+        Our artists-in-residence collaborate with local partners to create meaningful connections between
+        visiting musicians and the Yarmouth community. From cafés to chapels, every venue offers a new
+        way to listen.
+      </p>
+    </div>
+  </section>
+
+  <section id="support" class="support">
+    <div class="container">
+      <h2>Support &amp; Stay Connected</h2>
+      <ul>
+        <li>Join the newsletter for on-sale dates, program notes, and behind-the-scenes stories.</li>
+        <li>Bring a friend to an open rehearsal—admission is free throughout the festival.</li>
+        <li>Contact us to sponsor a concert, host a kitchen party, or volunteer with the festival team.</li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    background: linear-gradient(135deg, rgba(20, 54, 93, 0.92), rgba(37, 99, 235, 0.38)),
+      url("https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=80") center/cover;
+    color: #fff;
+    padding: 6rem 0;
+    text-align: left;
+  }
+
+  .hero h1 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .tagline {
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .intro {
+    font-size: 1.1rem;
+    max-width: 45rem;
+    margin-bottom: 2rem;
+  }
+
+  .cta .button {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    background: #f8ede3;
+    color: #14365d;
+    font-weight: 600;
+    border-radius: 999px;
+    text-decoration: none;
+  }
+
+  .highlights {
+    margin-top: 3rem;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .highlight-card {
+    background: rgba(248, 237, 227, 0.88);
+    border-radius: 1rem;
+    color: #14365d;
+    padding: 1.5rem;
+  }
+
+  .highlight-card h3 {
+    font-family: "Playfair Display", serif;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .schedule {
+    padding: 4rem 0;
+    background: #f7f9fb;
+  }
+
+  .schedule header {
+    margin-bottom: 2rem;
+  }
+
+  .schedule h2,
+  .about h2,
+  .support h2 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .about,
+  .support {
+    padding: 4rem 0;
+  }
+
+  .support ul {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+  }
+
+  .support li + li {
+    margin-top: 0.75rem;
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      padding: 4rem 0;
+    }
+
+    .intro {
+      font-size: 1rem;
+    }
+  }
+</style>
