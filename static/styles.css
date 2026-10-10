@@ -11,7 +11,9 @@
   --brass: #8a6a37;
 
   --display: "Cormorant Garamond", "Cormorant", Garamond, "Times New Roman", serif;
-  --text: "EB Garamond", Garamond, Georgia, "Times New Roman", serif;
+  /* Avenir ships with macOS and iOS. Elsewhere, Nunito Sans stands in unless
+     an Avenir web font licence is added. */
+  --text: "Avenir Book", "Avenir", "Avenir Next", "Nunito Sans", "Segoe UI", system-ui, sans-serif;
 
   --wrap: 76rem;
   --gutter: clamp(1rem, 4vw, 2.5rem);
@@ -28,9 +30,8 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--text);
-  font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
-  line-height: 1.6;
-  font-variant-numeric: oldstyle-nums;
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.7;
   text-rendering: optimizeLegibility;
 }
 
@@ -91,10 +92,10 @@ figure { margin: 0; }
 .year-switch-label,
 .button {
   font-family: var(--text);
-  font-variant-caps: all-small-caps;
-  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
   font-weight: 500;
-  font-size: 1.05em;
+  font-size: 0.8rem;
 }
 .eyebrow { color: var(--brass); margin-bottom: 1rem; }
 .instrument { color: var(--muted); font-weight: 400; }
@@ -126,9 +127,9 @@ figure { margin: 0; }
 }
 .brand-place { font-family: var(--display); font-size: 1.85rem; letter-spacing: 0.02em; }
 .brand-rest {
-  font-variant-caps: all-small-caps;
-  letter-spacing: 0.14em;
-  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.66rem;
   color: var(--muted);
   margin-top: 0.3rem;
 }
@@ -158,7 +159,7 @@ figure { margin: 0; }
   transform: translateY(-0.2em) rotate(45deg);
 }
 .year-switch[open] summary::after { transform: translateY(0.05em) rotate(-135deg); }
-.year-switch-label { color: var(--muted); font-size: 0.95em; margin-right: 0.2em; }
+.year-switch-label { color: var(--muted); font-size: 0.65rem; margin-right: 0.2em; }
 .year-switch ul {
   position: absolute;
   right: 0;
@@ -286,8 +287,9 @@ figure { margin: 0; }
 .cal-head {
   padding: 0.4rem 0.7rem;
   color: var(--brass);
-  font-variant-caps: all-small-caps;
-  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.7rem;
   font-weight: 500;
   background: var(--paper);
 }
@@ -326,7 +328,7 @@ figure { margin: 0; }
   border-bottom: 1px solid var(--rule);
 }
 .row-date { display: flex; flex-direction: column; text-decoration: none; line-height: 1; }
-.row-dow, .row-month { font-variant-caps: all-small-caps; letter-spacing: 0.09em; color: var(--brass); font-weight: 500; }
+.row-dow, .row-month { text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.14em; color: var(--brass); font-weight: 500; }
 .row-num { font: 400 3rem/0.95 var(--display); font-variant-numeric: lining-nums; margin: 0.15rem 0; }
 .row-photo { display: block; aspect-ratio: 3 / 2; overflow: hidden; background: var(--paper-deep); }
 .row-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
@@ -413,9 +415,9 @@ figure { margin: 0; }
 }
 .day:last-child { border-bottom: 0; }
 .day-date { display: flex; flex-direction: column; align-items: flex-start; align-self: start; position: sticky; top: 1.5rem; }
-.day-weekday { font-family: var(--text); font-variant-caps: all-small-caps; letter-spacing: 0.09em; color: var(--brass); font-size: 1.1rem; }
+.day-weekday { font-family: var(--text); text-transform: uppercase; letter-spacing: 0.14em; color: var(--brass); font-size: 0.75rem; font-weight: 500; }
 .day-num { font-size: 4.25rem; line-height: 0.95; font-weight: 400; font-variant-numeric: lining-nums; }
-.day-month { font-family: var(--text); font-style: italic; color: var(--muted); font-size: 1.1rem; }
+.day-month { font-family: var(--text); font-style: italic; color: var(--muted); font-size: 1rem; }
 
 .event { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 2rem; scroll-margin-top: 1.5rem; }
 .event + .event { margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--rule); }
@@ -437,7 +439,7 @@ figure { margin: 0; }
   border-bottom: 1px solid var(--rule);
 }
 .program li + li { margin-top: 0.6rem; }
-.composer { display: block; font-variant-caps: all-small-caps; letter-spacing: 0.08em; font-weight: 500; }
+.composer { display: block; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.12em; font-weight: 600; }
 .work-note { color: var(--muted); font-style: italic; }
 .work-note::before { content: "— "; font-style: normal; }
 
@@ -463,7 +465,7 @@ figure { margin: 0; }
 .artist .instrument { margin: 0.2rem 0 1.25rem; }
 .artist-site { margin-top: 0.75rem; font-style: italic; }
 .appearances { margin-top: 1.75rem; padding: 1rem 1.25rem; background: var(--paper-deep); max-width: 38rem; }
-.appearances .label { color: var(--brass); font-size: 1rem; margin-bottom: 0.3rem; }
+.appearances .label { color: var(--brass); font-size: 0.7rem; margin-bottom: 0.3rem; }
 .appearances li + li { margin-top: 0.2rem; }
 
 /* About page ---------------------------------------------------------- */
@@ -484,7 +486,7 @@ figure { margin: 0; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem 3rem; }
 .footer-name { font-family: var(--display); font-size: 1.6rem; line-height: 1.2; margin-bottom: 0.25rem; }
 .footer-ack { margin-top: 1.25rem; font-style: italic; color: var(--muted); max-width: 28rem; }
-.site-footer .label { font-size: 1rem; color: var(--brass); margin-bottom: 0.5rem; }
+.site-footer .label { font-size: 0.7rem; color: var(--brass); margin-bottom: 0.5rem; }
 .site-footer p { margin-bottom: 0.5rem; }
 .footer-base { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.9em; }
 
@@ -511,7 +513,7 @@ figure { margin: 0; }
   .cal-day { min-height: 0; display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 0.4rem 1rem; align-items: start; }
   .cal-day .cal-event { grid-column: 2; }
   .cal-date { grid-row: 1 / span 3; margin: 0; }
-  .cal-dow { display: block; font: 500 0.95rem var(--text); font-variant-caps: all-small-caps; letter-spacing: 0.09em; color: var(--brass); }
+  .cal-dow { display: block; font: 500 0.68rem var(--text); text-transform: uppercase; letter-spacing: 0.14em; color: var(--brass); }
 }
 
 @media (max-width: 40rem) {
