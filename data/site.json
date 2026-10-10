@@ -1,30 +1,50 @@
 {
   "name": "Yarmouth Chamber Music Festival",
   "location": "Yarmouth, Nova Scotia",
+  "timezone": "America/Halifax",
   "tagline": "Chamber music, close up, on Nova Scotia's southern shore.",
   "description": "An autumn festival of chamber music in kitchens, chapels and concert halls across Yarmouth, Nova Scotia.",
   "email": "info@example.com",
-  "mailingAddress": ["Yarmouth Chamber Music Festival", "PO Box 000", "Yarmouth, NS  B5A 0A0"],
+  "mailingAddress": [
+    "Yarmouth Chamber Music Festival",
+    "PO Box 000",
+    "Yarmouth, NS  B5A 0A0"
+  ],
   "newsletterUrl": "#",
   "charityNumber": null,
   "basePath": "/",
   "social": [
-    { "label": "Instagram", "url": "#" },
-    { "label": "Facebook", "url": "#" }
+    {
+      "label": "Instagram",
+      "url": "#"
+    },
+    {
+      "label": "Facebook",
+      "url": "#"
+    }
   ],
   "acknowledgement": "The festival takes place in Mi'kma'ki, the ancestral and unceded territory of the Mi'kmaq People.",
-
   "about": [
     "Placeholder. The Yarmouth Chamber Music Festival brings musicians of international standing to Yarmouth each autumn for a week and a half of concerts in the places where people actually gather: kitchens, chapels, halls and churches.",
     "Placeholder. The music is played close enough to see the bows move. Programs pair the great works of the repertoire with new music, and the artists stay on afterward to talk."
   ],
-
   "team": [
-    { "name": "Placeholder Name", "role": "Founder & Artistic Director", "bio": ["Placeholder biography of the artistic director."] },
-    { "name": "Placeholder Name", "role": "Festival Manager" },
-    { "name": "Placeholder Name", "role": "Board Chair" }
+    {
+      "name": "Placeholder Name",
+      "role": "Founder & Artistic Director",
+      "bio": [
+        "Placeholder biography of the artistic director."
+      ]
+    },
+    {
+      "name": "Placeholder Name",
+      "role": "Festival Manager"
+    },
+    {
+      "name": "Placeholder Name",
+      "role": "Board Chair"
+    }
   ],
-
   "support": {
     "headline": "Every concert is made possible by people who believe there should be music like this in Yarmouth.",
     "text": [
@@ -34,31 +54,49 @@
     "donateUrl": "#",
     "volunteerUrl": "mailto:info@example.com?subject=Volunteering",
     "sponsors": [
-      { "name": "Placeholder Sponsor", "url": "#" },
-      { "name": "Placeholder Foundation" }
-    ]
+      {
+        "name": "Placeholder Sponsor",
+        "url": "#"
+      },
+      {
+        "name": "Placeholder Foundation"
+      }
+    ],
+    "image": "images/site/lighthouse-rocks.jpg"
   },
-
   "venues": {
     "hebron-house": {
       "name": "A private home in Hebron",
       "address": "Hebron, Nova Scotia (address sent to ticket holders)",
       "mapUrl": null,
-      "description": ["Placeholder. A kitchen party in the old sense: an evening of music in a family home, with food and conversation."]
+      "description": [
+        "Placeholder. A kitchen party in the old sense: an evening of music in a family home, with food and conversation."
+      ],
+      "image": "images/venues/hebron-house.jpg",
+      "short": "Hebron"
     },
     "mountain-cemetery-chapel": {
       "name": "Chapel, Yarmouth Mountain Cemetery",
       "address": "Yarmouth, Nova Scotia",
-      "description": ["Placeholder description of the chapel."]
+      "description": [
+        "Placeholder description of the chapel."
+      ],
+      "image": "images/venues/mountain-cemetery-chapel.jpg",
+      "short": "Mountain Cemetery"
     },
     "universite-sainte-anne": {
       "name": "Chapelle, Université Sainte-Anne",
       "address": "Church Point, Nova Scotia",
-      "description": ["Placeholder description of the chapel at Université Sainte-Anne."]
+      "description": [
+        "Placeholder description of the chapel at Université Sainte-Anne."
+      ],
+      "image": "images/venues/universite-sainte-anne.jpg",
+      "short": "Sainte-Anne"
     },
     "tba": {
       "name": "Venue to be announced",
-      "hidden": true
+      "hidden": true,
+      "short": "Venue TBA"
     }
   }
 }

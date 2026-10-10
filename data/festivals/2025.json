@@ -1,30 +1,33 @@
 {
   "year": 2025,
-  "theme": null,
-  "tagline": "Ten days of chamber music in kitchens, chapels and concert halls.",
+  "headline": "Ten days of chamber music on the southern shore",
+  "summary": "Kitchen parties, a candlelit night in the cemetery chapel, and a finale at Université Sainte-Anne.",
   "intro": [
-    "Placeholder. For its second season the festival returns to Yarmouth with a slightly larger company of musicians, two kitchen parties, an evening in the cemetery chapel and a finale at Université Sainte-Anne.",
-    "Placeholder. Every event is small by design. Come early, sit close, and stay to meet the musicians afterward."
+    "Placeholder. In its first season the festival brought a small company of musicians to Yarmouth for ten days of concerts in intimate spaces, from a farmhouse kitchen in Hebron to a candlelit cemetery chapel."
+  ],
+  "heroImages": [
+    { "src": "images/events/finale.jpg", "caption": "Finale, Université Sainte-Anne" },
+    { "src": "images/site/lighthouse.jpg", "focus": "50% 30%" },
+    { "src": "images/events/night-music.jpg", "focus": "50% 40%" }
   ],
   "ticketsUrl": "#",
   "scheduleNote": ["Seating is limited at every event. Doors open thirty minutes before each concert."],
-  "artists": ["clara-whitmore", "julien-arsenault", "maren-holt", "thomas-ebright", "isabelle-leblanc", "owen-macleod", "nadia-roy"],
+  "artists": ["clara-whitmore", "julien-arsenault", "maren-holt", "elise-arsenault", "thomas-leblanc", "owen-macleod"],
   "events": [
     {
-      "id": "kitchen-party-1",
-      "title": "Classical Kitchen Party I",
+      "id": "kitchen-party",
+      "title": "Classical Kitchen Party",
       "kind": "House concert",
       "date": "2025-10-02",
       "time": "19:00",
       "venue": "hebron-house",
-      "description": [
-        "The festival opens the way it began: in a kitchen, with music, food and good company. Refreshments included."
-      ],
+      "image": "images/events/kitchen-party.jpg",
+      "description": ["An intimate house concert that brings artists and listeners together over music, stories and Maritime hospitality. Refreshments included."],
       "program": [
         { "composer": "Joseph Haydn", "work": "String Quartet in D major, Op. 76 No. 5" },
         { "composer": "Traditional", "work": "Maritime tunes", "note": "arr. Owen MacLeod" }
       ],
-      "performers": ["clara-whitmore", "julien-arsenault", "maren-holt", "thomas-ebright", "owen-macleod"],
+      "performers": ["clara-whitmore", "julien-arsenault", "maren-holt", "elise-arsenault", "owen-macleod"],
       "tickets": { "price": "$45" }
     },
     {
@@ -34,27 +37,10 @@
       "date": "2025-10-04",
       "time": "11:00",
       "venue": "tba",
-      "description": [
-        "Drop in and listen as the musicians work through the week's music. Come and go as you please."
-      ],
-      "performers": ["clara-whitmore", "julien-arsenault", "maren-holt", "thomas-ebright", "isabelle-leblanc"],
+      "image": "images/events/open-rehearsal.jpg",
+      "description": ["Drop in and listen as the musicians work through the week's music. Come and go as you please."],
+      "performers": ["clara-whitmore", "julien-arsenault", "maren-holt", "elise-arsenault", "thomas-leblanc"],
       "tickets": { "price": "Free", "url": null }
-    },
-    {
-      "id": "kitchen-party-2",
-      "title": "Classical Kitchen Party II",
-      "kind": "House concert",
-      "date": "2025-10-05",
-      "time": "16:00",
-      "venue": "hebron-house",
-      "description": [
-        "An afternoon house concert of music for clarinet and strings."
-      ],
-      "program": [
-        { "composer": "Wolfgang Amadeus Mozart", "work": "Clarinet Quintet in A major, K. 581" }
-      ],
-      "performers": ["nadia-roy", "clara-whitmore", "julien-arsenault", "maren-holt", "thomas-ebright"],
-      "tickets": { "price": "$45", "soldOut": true }
     },
     {
       "id": "night-music",
@@ -63,15 +49,14 @@
       "date": "2025-10-09",
       "time": "19:30",
       "venue": "mountain-cemetery-chapel",
-      "description": [
-        "The candlelit evening returns. Spacious, quiet music in near-darkness. Dress warmly."
-      ],
+      "image": "images/events/night-music.jpg",
+      "imageFocus": "50% 40%",
+      "description": ["A candlelit evening of luminous, unhurried music in the historic chapel. Dress warmly."],
       "program": [
-        { "composer": "Arvo Pärt", "work": "*Fratres*" },
-        { "composer": "Olivier Messiaen", "work": "*Louange à l'éternité de Jésus*", "note": "from *Quatuor pour la fin du temps*" },
-        { "composer": "Placeholder Composer", "work": "New work", "note": "festival commission, world premiere" }
+        { "composer": "Arvo Pärt", "work": "*Spiegel im Spiegel*" },
+        { "composer": "Festival commission", "work": "New work", "note": "world premiere" }
       ],
-      "performers": ["julien-arsenault", "thomas-ebright", "isabelle-leblanc"],
+      "performers": ["julien-arsenault", "thomas-leblanc"],
       "tickets": { "price": "$50" }
     },
     {
@@ -81,15 +66,25 @@
       "date": "2025-10-11",
       "time": "19:30",
       "venue": "universite-sainte-anne",
-      "description": [
-        "The whole company comes together to close the season. A reception with the artists follows."
-      ],
+      "image": "images/events/finale.jpg",
+      "description": ["A celebratory program pairing beloved repertoire with a world premiere inspired by Yarmouth's coastal landscape. A reception with the artists follows."],
       "program": [
-        { "composer": "Johannes Brahms", "work": "Clarinet Trio in A minor, Op. 114" },
-        { "composer": "Robert Schumann", "work": "Piano Quintet in E-flat major, Op. 44" }
+        { "composer": "Fanny Mendelssohn", "work": "String Quartet in E-flat major" },
+        { "composer": "Festival commission", "work": "New work", "note": "world premiere" }
       ],
-      "performers": ["clara-whitmore", "julien-arsenault", "maren-holt", "thomas-ebright", "isabelle-leblanc", "nadia-roy"],
-      "tickets": { "price": "$35", "note": "students free" }
+      "performers": ["clara-whitmore", "julien-arsenault", "maren-holt", "elise-arsenault", "thomas-leblanc"],
+      "tickets": { "price": "$30" }
     }
+  ],
+  "gallery": [
+    { "src": "images/gallery/quartet-dark.jpg", "caption": "Finale, Université Sainte-Anne" },
+    { "src": "images/gallery/candles-a.jpg", "caption": "Night Music in the Dark" },
+    { "src": "images/gallery/hall-a.jpg", "caption": "Open Rehearsal" },
+    { "src": "images/gallery/traps.jpg", "caption": "Cape Forchu" },
+    { "src": "images/gallery/duo.jpg", "caption": "Classical Kitchen Party" },
+    { "src": "images/gallery/candles-d.jpg" },
+    { "src": "images/gallery/lobby-quartet.jpg" },
+    { "src": "images/gallery/blue-house.jpg", "caption": "Hebron" },
+    { "src": "images/gallery/lighthouse-b.jpg", "caption": "Cape Forchu lighthouse" }
   ]
 }

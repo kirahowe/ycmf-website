@@ -4,6 +4,8 @@
 //
 //   node build.mjs           build into dist/
 //   node build.mjs --serve   build, then serve dist/ at http://localhost:8080
+//
+// Set BUILD_DATE=2026-09-01 to preview the site as it will look on that day.
 
 import { readFile, writeFile, mkdir, rm, cp, readdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
@@ -25,37 +27,58 @@ const readJSON = async (file) => {
   }
 };
 
+// Today's date where the festival happens, as YYYY-MM-DD.
+const localToday = (timeZone) =>
+  process.env.BUILD_DATE ?? new Intl.DateTimeFormat('en-CA', { timeZone, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+
 async function loadData() {
   const site = await readJSON('data/site.json');
   const artists = await readJSON('data/artists.json');
   const files = (await readdir(path.join(ROOT, 'data/festivals'))).filter((f) => /^\d{4}\.json$/.test(f));
   const festivals = await Promise.all(files.map((f) => readJSON(`data/festivals/${f}`)));
+  const today = localToday(site.timezone ?? 'America/Halifax');
+
   festivals.sort((a, b) => a.year - b.year);
   festivals.forEach((f, i) => {
     f.season = i + 1;
+    f.events ??= [];
+    f.gallery ??= [];
     f.events.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+    for (const ev of f.events) ev.past = ev.date < today;
+    // A festival is "over" once its last event has happened.
+    f.over = f.events.length > 0 && f.events.every((ev) => ev.past);
   });
   validate(site, artists, festivals);
-  return { site, artists, festivals, latest: festivals.at(-1) };
+  return { site, artists, festivals, latest: festivals.at(-1), today };
 }
 
 function validate(site, artists, festivals) {
   const errors = [];
+  const checkImage = (src, where) => {
+    if (src && !/^https?:/.test(src) && !existsSync(path.join(ROOT, 'static', src))) {
+      errors.push(`${where}: image "${src}" not found in static/`);
+    }
+  };
   if (!festivals.length) errors.push('No festival years found in data/festivals/.');
+  for (const [id, a] of Object.entries(artists)) checkImage(a.photo, `data/artists.json "${id}"`);
+  for (const [id, v] of Object.entries(site.venues)) checkImage(v.image, `data/site.json venue "${id}"`);
+  checkImage(site.support?.image, 'data/site.json support');
   for (const fest of festivals) {
     const where = `data/festivals/${fest.year}.json`;
     for (const id of fest.artists ?? []) {
       if (!artists[id]) errors.push(`${where}: artist "${id}" is not defined in data/artists.json`);
     }
+    for (const img of [...(fest.heroImages ?? []), ...fest.gallery]) checkImage(img.src, where);
     const ids = new Set();
-    for (const ev of fest.events ?? []) {
+    for (const ev of fest.events) {
       const label = `${where}: event "${ev.id ?? ev.title}"`;
       if (!ev.id) errors.push(`${label} is missing an "id"`);
       if (ids.has(ev.id)) errors.push(`${label} has a duplicate id`);
       ids.add(ev.id);
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(ev.date ?? '')) errors.push(`${label} needs a date like "2025-10-03"`);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(ev.date ?? '')) errors.push(`${label} needs a date like "2026-10-03"`);
       if (ev.time && !/^\d{1,2}:\d{2}$/.test(ev.time)) errors.push(`${label} needs a 24-hour time like "19:30"`);
       if (!site.venues[ev.venue]) errors.push(`${label}: venue "${ev.venue}" is not defined in data/site.json`);
+      checkImage(ev.image, label);
       for (const p of ev.performers ?? []) {
         if (typeof p === 'string' && !artists[p]) errors.push(`${label}: performer "${p}" is not defined in data/artists.json`);
       }
@@ -76,25 +99,29 @@ const inline = (s) =>
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>')
     .replace(/\*([^*]+)\*/g, '<em>$1</em>');
 
+const plain = (s = '') => String(s).replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/\*/g, '');
+
 const paras = (text) => [].concat(text ?? []).map((p) => `<p>${inline(p)}</p>`).join('\n');
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const ORDINALS = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth'];
 
-function parseDate(iso) {
+const toUTC = (iso) => {
   const [y, m, d] = iso.split('-').map(Number);
-  return { y, m, d, weekday: DAYS[new Date(Date.UTC(y, m - 1, d)).getUTCDay()], month: MONTHS[m - 1] };
+  return new Date(Date.UTC(y, m - 1, d));
+};
+const toISO = (date) => date.toISOString().slice(0, 10);
+const addDays = (iso, n) => toISO(new Date(toUTC(iso).getTime() + n * 86400000));
+
+function parseDate(iso) {
+  const date = toUTC(iso);
+  return { y: date.getUTCFullYear(), m: date.getUTCMonth() + 1, d: date.getUTCDate(), dow: date.getUTCDay(), weekday: DAYS[date.getUTCDay()], month: MONTHS[date.getUTCMonth()] };
 }
 
 const longDate = (iso) => {
   const t = parseDate(iso);
   return `${t.weekday}, ${t.month} ${t.d}`;
-};
-
-const shortDate = (iso) => {
-  const t = parseDate(iso);
-  return `${t.weekday.slice(0, 3)} ${t.month.slice(0, 3)} ${t.d}`;
 };
 
 function time(hm) {
@@ -106,7 +133,7 @@ function time(hm) {
 
 function dateRange(fest, { withYear = true } = {}) {
   if (fest.dates) return fest.dates;
-  if (!fest.events.length) return String(fest.year);
+  if (!fest.events.length) return withYear ? `Dates to be announced` : String(fest.year);
   const a = parseDate(fest.events[0].date);
   const b = parseDate(fest.events.at(-1).date);
   const yr = withYear ? `, ${b.y}` : '';
@@ -125,6 +152,62 @@ const mapUrl = (venue) => {
 };
 
 // ---------------------------------------------------------------------------
+// Calendar files (.ics)
+
+const icsText = (s = '') => plain(s).replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/([,;])/g, '\\$1');
+
+// Lines longer than 75 bytes must be folded.
+function icsFold(line) {
+  const out = [];
+  let rest = Buffer.from(line);
+  while (rest.length > 75) {
+    let cut = out.length ? 74 : 75;
+    while ((rest[cut] & 0xc0) === 0x80) cut--; // don't split a UTF-8 character
+    out.push(rest.subarray(0, cut).toString());
+    rest = rest.subarray(cut);
+  }
+  out.push(rest.toString());
+  return out.join('\r\n ');
+}
+
+function icsDateTime(date, hm, addMinutes = 0) {
+  const [h, m] = (hm ?? '00:00').split(':').map(Number);
+  const total = h * 60 + m + addMinutes;
+  const day = addDays(date, Math.floor(total / 1440));
+  const mins = total % 1440;
+  return `${day.replaceAll('-', '')}T${String(Math.floor(mins / 60)).padStart(2, '0')}${String(mins % 60).padStart(2, '0')}00`;
+}
+
+function icsCalendar(site, name, events) {
+  const tz = site.timezone ?? 'America/Halifax';
+  const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
+  const lines = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', `PRODID:-//${icsText(site.name)}//EN`, 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', `X-WR-CALNAME:${icsText(name)}`,
+    // Atlantic time. Other zones would need their own rules here.
+    'BEGIN:VTIMEZONE', `TZID:${tz}`,
+    'BEGIN:DAYLIGHT', 'TZOFFSETFROM:-0400', 'TZOFFSETTO:-0300', 'TZNAME:ADT', 'DTSTART:19700308T020000', 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU', 'END:DAYLIGHT',
+    'BEGIN:STANDARD', 'TZOFFSETFROM:-0300', 'TZOFFSETTO:-0400', 'TZNAME:AST', 'DTSTART:19701101T020000', 'RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU', 'END:STANDARD',
+    'END:VTIMEZONE',
+  ];
+  for (const { ev, fest } of events) {
+    const venue = site.venues[ev.venue];
+    lines.push(
+      'BEGIN:VEVENT',
+      `UID:${fest.year}-${ev.id}@ycmf`,
+      `DTSTAMP:${stamp}`,
+      `DTSTART;TZID=${tz}:${icsDateTime(ev.date, ev.time)}`,
+      `DTEND;TZID=${tz}:${icsDateTime(ev.date, ev.time, ev.duration ?? 120)}`,
+      `SUMMARY:${icsText(ev.title)}`,
+      `LOCATION:${icsText([venue.name, venue.address].filter(Boolean).join(', '))}`,
+      `DESCRIPTION:${icsText([].concat(ev.description ?? []).join('\n\n'))}`,
+      'END:VEVENT',
+    );
+  }
+  lines.push('END:VCALENDAR');
+  return lines.map(icsFold).join('\r\n') + '\r\n';
+}
+
+// ---------------------------------------------------------------------------
 // Paths
 //
 // Every festival year lives at /<year>/. The latest year is also published at
@@ -133,7 +216,113 @@ const mapUrl = (venue) => {
 
 function linker(dir) {
   const depth = dir.split('/').filter(Boolean).length;
-  return (target = '') => '../'.repeat(depth) + target || './';
+  return (target = '') => (/^(https?:|mailto:|#)/.test(target) ? target : '../'.repeat(depth) + target || './');
+}
+
+// ---------------------------------------------------------------------------
+// Shared pieces
+
+function img(href, src, { alt = '', focus, cls = '', eager = false } = {}) {
+  if (!src) return '';
+  return `<img${cls ? ` class="${cls}"` : ''} src="${esc(href(src))}" alt="${esc(alt)}"${focus ? ` style="object-position: ${esc(focus)}"` : ''}${eager ? '' : ' loading="lazy"'} decoding="async">`;
+}
+
+function portrait(href, artist) {
+  if (artist.photo) return img(href, artist.photo, { alt: artist.name, focus: artist.photoFocus });
+  const initials = artist.name.split(/\s+/).map((w) => w[0]).join('').slice(0, 2);
+  return `<span class="portrait-blank" aria-hidden="true">${esc(initials)}</span>`;
+}
+
+const sectionHead = (title, link) => `
+    <div class="section-head">
+      <h2>${title}</h2>
+      ${link ?? ''}
+    </div>`;
+
+function ticketBlock(ev, fest, href, { compact = false } = {}) {
+  const t = ev.tickets ?? {};
+  const url = 'url' in t ? t.url : fest.ticketsUrl; // explicit null means no ticket link
+  let action = '';
+  if (ev.past) action = '<span class="ticket-state">Past event</span>';
+  else if (t.soldOut) action = '<span class="ticket-state">Sold out</span>';
+  else if (url) action = `<a class="button button-primary" href="${esc(href(url))}">${esc(t.label ?? 'Tickets')}</a>`;
+  return `<div class="tickets${compact ? ' tickets-compact' : ''}">
+        ${t.price ? `<span class="price">${esc(t.price)}</span>` : ''}
+        ${t.note && !ev.past ? `<span class="price-note">${inline(t.note)}</span>` : ''}
+        ${action}
+      </div>`;
+}
+
+function programList(ev) {
+  if (!ev.program?.length) return '';
+  const items = ev.program.map(
+    (w) => `<li>${w.composer ? `<span class="composer">${esc(w.composer)}</span> ` : ''}<span class="work">${inline(w.work)}</span>${w.note ? ` <span class="work-note">${inline(w.note)}</span>` : ''}</li>`,
+  );
+  return `<ul class="program">${items.join('')}</ul>`;
+}
+
+function performerList(ctx, ev, href) {
+  const items = (ev.performers ?? []).map((p) => {
+    if (typeof p !== 'string') return `<li>${esc(p.name)}${p.instrument ? ` <span class="instrument">${esc(p.instrument)}</span>` : ''}</li>`;
+    const a = ctx.artists[p];
+    return `<li><a href="${href(`${ctx.yearBase}artists/#${p}`)}">${esc(a.name)}</a> <span class="instrument">${esc(a.instrument)}</span></li>`;
+  });
+  return items.length ? `<ul class="performers">${items.join('')}</ul>` : '';
+}
+
+// A month-style grid of the festival weeks, Monday first.
+function calendarGrid(ctx, href) {
+  const { fest, site } = ctx;
+  if (!fest.events.length) return '';
+  const first = fest.events[0].date;
+  const last = fest.events.at(-1).date;
+  const start = addDays(first, -((parseDate(first).dow + 6) % 7));
+  const end = addDays(last, (7 - parseDate(last).dow) % 7);
+  const byDate = Map.groupBy(fest.events, (ev) => ev.date);
+
+  const cells = [];
+  for (let day = start; day <= end; day = addDays(day, 1)) {
+    const t = parseDate(day);
+    const events = byDate.get(day) ?? [];
+    const outside = day < first || day > last;
+    const label = t.d === 1 || day === start ? `${t.month.slice(0, 3)} ${t.d}` : t.d;
+    const items = events
+      .map((ev) => {
+        const venue = site.venues[ev.venue];
+        const free = !ev.tickets?.url && 'url' in (ev.tickets ?? {});
+        return `<a class="cal-event${free ? ' cal-free' : ''}" href="${href(`${ctx.yearBase}schedule/#${ev.id}`)}">${inline(ev.title)}<span>${time(ev.time)} · ${esc(venue.short ?? venue.name)}</span></a>`;
+      })
+      .join('');
+    cells.push(`<div class="cal-day${outside ? ' cal-outside' : ''}${events.length ? ' cal-has' : ''}"><span class="cal-date"><span class="cal-dow">${t.weekday.slice(0, 3)}</span> ${label}</span>${items}</div>`);
+  }
+  const heads = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => `<div class="cal-head">${d}</div>`).join('');
+  return `<div class="calendar">${heads}${cells.join('')}</div>
+    <p class="cal-legend"><span class="key"></span> Ticketed <span class="key key-free"></span> Free</p>`;
+}
+
+function eventRow(ctx, ev, href) {
+  const venue = ctx.site.venues[ev.venue];
+  const t = parseDate(ev.date);
+  const image = ev.image ?? venue.image;
+  return `
+    <article class="row${ev.past ? ' row-past' : ''}">
+      <a class="row-date" href="${href(`${ctx.yearBase}schedule/#${ev.id}`)}"><span class="row-dow">${t.weekday.slice(0, 3)}</span><span class="row-num">${t.d}</span><span class="row-month">${t.month.slice(0, 3)}</span></a>
+      <a class="row-photo" href="${href(`${ctx.yearBase}schedule/#${ev.id}`)}" tabindex="-1" aria-hidden="true">${img(href, image, { focus: ev.imageFocus })}</a>
+      <div class="row-body">
+        <p class="row-meta">${time(ev.time)}${ev.kind ? ` <span class="sep">·</span> ${esc(ev.kind)}` : ''}</p>
+        <h3><a href="${href(`${ctx.yearBase}schedule/#${ev.id}`)}">${inline(ev.title)}</a></h3>
+        <p class="row-venue">${esc(venue.name)}</p>
+        ${ev.program?.length ? `<p class="row-program">${ev.program.map((w) => (w.composer ? esc(w.composer.split(' ').at(-1)) : inline(w.work))).filter((v, i, a) => a.indexOf(v) === i).join(', ')}</p>` : ''}
+      </div>
+      ${ticketBlock(ev, ctx.fest, href, { compact: true })}
+    </article>`;
+}
+
+function gallery(href, photos, { limit } = {}) {
+  const list = limit ? photos.slice(0, limit) : photos;
+  return `<div class="gallery">${list
+    .map((p) => `<figure>${img(href, p.src, { alt: p.alt ?? p.caption ?? '', focus: p.focus })}${p.caption ? `<figcaption>${inline(p.caption)}</figcaption>` : ''}</figure>`)
+    .join('')}</div>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -147,10 +336,11 @@ function layout(ctx, { title, section, body, description }) {
   const nav = [
     ['Schedule', `${yearBase}schedule/`, 'schedule'],
     ['Artists', `${yearBase}artists/`, 'artists'],
+    ['Photos', `${yearBase}photos/`, 'photos'],
     ['About', 'about/', 'about'],
   ];
 
-  const yearSub = section === 'schedule' || section === 'artists' ? `${section}/` : '';
+  const yearSub = ['schedule', 'artists', 'photos'].includes(section) ? `${section}/` : '';
   const years = [...festivals]
     .reverse()
     .map((f) => {
@@ -165,6 +355,7 @@ function layout(ctx, { title, section, body, description }) {
       ? `<div class="archive-note"><div class="wrap">You are viewing the ${fest.year} festival archive. <a href="${href(yearSub)}">See the ${latest.year} festival&nbsp;→</a></div></div>`
       : '';
 
+  const ticketsLive = fest === latest && !fest.over && fest.ticketsUrl;
   const socials = (site.social ?? []).map((s) => `<li><a href="${esc(s.url)}">${esc(s.label)}</a></li>`).join('');
 
   return `<!doctype html>
@@ -194,13 +385,13 @@ function layout(ctx, { title, section, body, description }) {
     <nav class="nav" aria-label="Main">
       <ul>
         ${nav.map(([label, target, key]) => `<li><a href="${href(target)}"${key === section ? ' aria-current="page"' : ''}>${label}</a></li>`).join('\n        ')}
-        <li><a class="nav-support" href="${href('about/#support')}">Support</a></li>
       </ul>
     </nav>
     <details class="year-switch">
       <summary><span class="year-switch-label">Festival</span> ${fest.year}</summary>
       <ul>${years}</ul>
     </details>
+    ${ticketsLive ? `<a class="button button-primary header-tickets" href="${esc(href(fest.ticketsUrl))}">Tickets</a>` : `<a class="button header-tickets" href="${href('about/#support')}">Support</a>`}
   </div>
 </header>
 ${archiveNote}
@@ -223,6 +414,7 @@ ${body}
       <h2 class="label">Stay in touch</h2>
       ${site.newsletterUrl ? `<p><a href="${esc(site.newsletterUrl)}">Join the mailing list</a></p>` : ''}
       ${socials ? `<ul class="plain">${socials}</ul>` : ''}
+      <p><a href="${href('about/#support')}">Support the festival</a></p>
     </div>
   </div>
   <div class="wrap footer-base">
@@ -235,38 +427,108 @@ ${body}
 }
 
 // ---------------------------------------------------------------------------
-// Pieces shared between pages
+// Pages
 
-function performerList(ctx, ev, href) {
-  const items = (ev.performers ?? []).map((p) => {
-    if (typeof p !== 'string') return `<li>${esc(p.name)}${p.instrument ? ` <span class="instrument">${esc(p.instrument)}</span>` : ''}</li>`;
-    const a = ctx.artists[p];
-    return `<li><a href="${href(`${ctx.yearBase}artists/#${p}`)}">${esc(a.name)}</a> <span class="instrument">${esc(a.instrument)}</span></li>`;
-  });
-  return items.length ? `<ul class="performers">${items.join('')}</ul>` : '';
-}
+function homePage(ctx) {
+  const { site, fest, festivals, artists } = ctx;
+  const href = linker(ctx.dir);
+  const isLatest = fest === ctx.latest;
+  const over = fest.over || !isLatest;
+  const range = dateRange(fest, { withYear: false });
 
-function programList(ev) {
-  if (!ev.program?.length) return '';
-  const items = ev.program.map(
-    (w) => `<li>
-          ${w.composer ? `<span class="composer">${esc(w.composer)}</span>` : ''}
-          <span class="work">${inline(w.work)}</span>${w.note ? ` <span class="work-note">${inline(w.note)}</span>` : ''}
-        </li>`,
-  );
-  return `<ol class="program">${items.join('')}</ol>`;
-}
+  // Hero: text on one side, a cluster of photographs on the other.
+  const [main, ...extra] = fest.heroImages ?? [];
+  const heroPhotos = main
+    ? `<div class="hero-photos${extra.length ? '' : ' hero-photos-single'}">
+        <figure class="hero-main">${img(href, main.src, { alt: main.alt ?? '', focus: main.focus, eager: true })}${main.caption ? `<figcaption>${inline(main.caption)}</figcaption>` : ''}</figure>
+        ${extra.slice(0, 2).map((p) => `<figure>${img(href, p.src, { alt: p.alt ?? '', focus: p.focus, eager: true })}</figure>`).join('')}
+      </div>`
+    : '';
 
-function tickets(ev, fest, isPast) {
-  const t = ev.tickets ?? {};
-  if (isPast) return '';
-  const url = 'url' in t ? t.url : fest.ticketsUrl; // explicit null means no ticket link
-  const parts = [];
-  if (t.price) parts.push(`<span class="price">${esc(t.price)}</span>`);
-  if (t.note) parts.push(`<span>${inline(t.note)}</span>`);
-  if (url && !t.soldOut) parts.push(`<a href="${esc(url)}">Tickets</a>`);
-  if (t.soldOut) parts.push('<span class="sold-out">Sold out</span>');
-  return parts.length ? `<p class="event-tickets">${parts.join(' <span class="sep">·</span> ')}</p>` : '';
+  const heroText = over
+    ? `<p class="eyebrow">${seasonName(fest.season)} <span class="sep">·</span> ${esc(range)}, ${fest.year}</p>
+      <h1>${isLatest ? 'Thank you for a wonderful festival' : `The ${fest.year} festival`}</h1>
+      <div class="hero-summary">${paras(isLatest ? (fest.afterword ?? fest.summary) : fest.summary)}</div>
+      <p class="actions">
+        <a class="button button-primary" href="${href(`${ctx.yearBase}photos/`)}">Photos from ${fest.year}</a>
+        ${isLatest && site.newsletterUrl ? `<a class="button" href="${esc(site.newsletterUrl)}">Hear about ${fest.year + 1}</a>` : ''}
+      </p>`
+    : `<p class="eyebrow">${seasonName(fest.season)} <span class="sep">·</span> ${esc(range)}, ${fest.year}</p>
+      <h1>${inline(fest.headline ?? site.name)} <em>${esc(site.location)}</em></h1>
+      <div class="hero-summary">${paras(fest.summary)}</div>
+      <p class="actions">
+        ${fest.ticketsUrl ? `<a class="button button-primary" href="${esc(href(fest.ticketsUrl))}">Buy tickets</a>` : ''}
+        <a class="button" href="#calendar">See the calendar</a>
+      </p>`;
+
+  const rows = fest.events.map((ev) => eventRow(ctx, ev, href)).join('');
+
+  const roster = (fest.artists ?? [])
+    .map((id) => `<a class="artist-card" href="${href(`${ctx.yearBase}artists/#${id}`)}"><span class="portrait">${portrait(href, artists[id])}</span><span class="artist-name">${esc(artists[id].name)}</span><span class="instrument">${esc(artists[id].instrument)}</span></a>`)
+    .join('');
+
+  // Show this year's photos, or last year's until there are some.
+  const photoYear = fest.gallery.length ? fest : [...festivals].reverse().find((f) => f.year < fest.year && f.gallery.length);
+  const photoBase = photoYear && (photoYear === ctx.latest ? '' : `${photoYear.year}/`);
+
+  const body = `
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-text">${heroText}</div>
+    ${heroPhotos}
+  </div>
+</section>
+
+${fest.intro && !over ? `<section class="band band-plain">
+  <div class="wrap split">
+    <h2 class="label">The ${fest.year} Festival</h2>
+    <div class="prose lead">${paras(fest.intro)}</div>
+  </div>
+</section>` : ''}
+
+${fest.events.length ? `<section class="band band-tint" id="calendar">
+  <div class="wrap">
+    ${sectionHead(`${parseDate(fest.events[0].date).month} ${fest.year}`, over ? '' : `<a href="${href(`${ctx.yearBase}festival-${fest.year}.ics`)}">Add every event to your calendar&nbsp;→</a>`)}
+    ${calendarGrid(ctx, href)}
+  </div>
+</section>
+
+<section class="band band-plain">
+  <div class="wrap">
+    ${sectionHead(over ? `The ${fest.year} program` : 'Concerts &amp; events', `<a href="${href(`${ctx.yearBase}schedule/`)}">Full schedule and repertoire&nbsp;→</a>`)}
+    <div class="rows">${rows}</div>
+  </div>
+</section>` : `<section class="band band-tint">
+  <div class="wrap"><p class="lead">The ${fest.year} program will be announced soon.</p></div>
+</section>`}
+
+${roster ? `<section class="band band-tint">
+  <div class="wrap">
+    ${sectionHead('The artists', `<a href="${href(`${ctx.yearBase}artists/`)}">Biographies&nbsp;→</a>`)}
+    <div class="artist-grid">${roster}</div>
+  </div>
+</section>` : ''}
+
+${photoYear ? `<section class="band band-plain">
+  <div class="wrap">
+    ${sectionHead(photoYear === fest ? `${fest.year} in pictures` : `From the ${photoYear.year} festival`, `<a href="${href(`${photoBase}photos/`)}">All photographs&nbsp;→</a>`)}
+  </div>
+  <div class="wrap-wide">${gallery(href, photoYear.gallery, { limit: 9 })}</div>
+</section>` : ''}
+
+${site.support ? `<section class="band band-dark support">
+  ${site.support.image ? img(href, site.support.image, { cls: 'support-bg' }) : ''}
+  <div class="wrap support-inner">
+    <p class="support-text">${inline(site.support.headline)}</p>
+    <p class="actions">
+      ${site.support.donateUrl ? `<a class="button button-light" href="${esc(href(site.support.donateUrl))}">Make a gift</a>` : ''}
+      <a class="button button-ghost" href="${href('about/#support')}">Other ways to help</a>
+    </p>
+  </div>
+</section>` : ''}
+`;
+
+  return layout(ctx, { section: 'home', body, description: plain([].concat(fest.summary ?? site.description).join(' ')) });
 }
 
 const pageHead = (eyebrow, title, intro = '') => `
@@ -277,87 +539,6 @@ const pageHead = (eyebrow, title, intro = '') => `
     ${intro ? `<div class="page-intro">${intro}</div>` : ''}
   </div>
 </header>`;
-
-// ---------------------------------------------------------------------------
-// Pages
-
-function homePage(ctx) {
-  const { site, fest, artists } = ctx;
-  const href = linker(ctx.dir);
-
-  const glance = fest.events
-    .map((ev) => {
-      const venue = site.venues[ev.venue];
-      return `<li>
-        <a href="${href(`${ctx.yearBase}schedule/#${ev.id}`)}">
-          <span class="glance-date">${shortDate(ev.date)}</span>
-          <span class="glance-title">${inline(ev.title)}<span class="glance-venue">${esc(venue.name)}</span></span>
-          <span class="glance-time">${time(ev.time)}</span>
-        </a>
-      </li>`;
-    })
-    .join('');
-
-  const roster = (fest.artists ?? [])
-    .map((id) => `<li><a href="${href(`${ctx.yearBase}artists/#${id}`)}"><span class="roster-name">${esc(artists[id].name)}</span> <span class="instrument">${esc(artists[id].instrument)}</span></a></li>`)
-    .join('');
-
-  const ticketsUrl = fest === ctx.latest ? fest.ticketsUrl : null;
-
-  const body = `
-<section class="masthead">
-  <div class="wrap">
-    <p class="eyebrow">${seasonName(fest.season)}</p>
-    <h1><span class="masthead-name">${esc(site.name)}</span> <span class="masthead-year">${fest.year}</span></h1>
-    <p class="masthead-dates">${esc(dateRange(fest, { withYear: false }))} <span class="sep">·</span> ${esc(site.location)}</p>
-    ${fest.tagline ? `<p class="masthead-tagline">${inline(fest.tagline)}</p>` : ''}
-    <p class="actions">
-      <a class="button button-primary" href="${href(`${ctx.yearBase}schedule/`)}">The schedule</a>
-      ${ticketsUrl ? `<a class="button" href="${esc(ticketsUrl)}">Tickets</a>` : ''}
-    </p>
-  </div>
-</section>
-
-${fest.intro ? `<section class="section">
-  <div class="wrap split">
-    <h2 class="label">${fest.theme ? esc(fest.theme) : `The ${fest.year} Festival`}</h2>
-    <div class="prose lead">${paras(fest.intro)}</div>
-  </div>
-</section>` : ''}
-
-${glance ? `<section class="section">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Program</h2>
-      <a href="${href(`${ctx.yearBase}schedule/`)}">Full schedule and repertoire&nbsp;→</a>
-    </div>
-    <ol class="glance">${glance}</ol>
-  </div>
-</section>` : ''}
-
-${roster ? `<section class="section">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Artists</h2>
-      <a href="${href(`${ctx.yearBase}artists/`)}">Biographies&nbsp;→</a>
-    </div>
-    <ul class="roster">${roster}</ul>
-  </div>
-</section>` : ''}
-
-${site.support ? `<section class="band">
-  <div class="wrap band-inner">
-    <p class="band-text">${inline(site.support.headline)}</p>
-    <p class="actions">
-      ${site.support.donateUrl ? `<a class="button button-light" href="${esc(site.support.donateUrl)}">Make a gift</a>` : ''}
-      <a class="button button-ghost" href="${href('about/#support')}">Other ways to help</a>
-    </p>
-  </div>
-</section>` : ''}
-`;
-
-  return layout(ctx, { section: 'home', body, description: fest.tagline ?? site.description });
-}
 
 function schedulePage(ctx) {
   const { site, fest } = ctx;
@@ -371,15 +552,22 @@ function schedulePage(ctx) {
         .map((ev) => {
           const venue = site.venues[ev.venue];
           const map = mapUrl(venue);
+          const image = ev.image ?? venue.image;
           return `
-      <article class="event" id="${esc(ev.id)}">
-        <p class="event-meta"><span class="event-time">${time(ev.time)}</span>${ev.kind ? ` <span class="sep">·</span> ${esc(ev.kind)}` : ''}</p>
-        <h3>${inline(ev.title)}</h3>
-        <p class="event-venue">${map ? `<a href="${esc(map)}">${esc(venue.name)}</a>` : esc(venue.name)}${venue.address ? `<span class="event-address">${esc(venue.address)}</span>` : ''}</p>
-        <div class="prose">${paras(ev.description)}</div>
-        ${programList(ev)}
-        ${performerList(ctx, ev, href)}
-        ${tickets(ev, fest, fest !== ctx.latest)}
+      <article class="event${ev.past ? ' event-past' : ''}" id="${esc(ev.id)}">
+        ${image ? `<div class="event-photo">${img(href, image, { focus: ev.imageFocus })}</div>` : ''}
+        <div class="event-body">
+          <p class="event-meta"><span class="event-time">${time(ev.time)}</span>${ev.kind ? ` <span class="sep">·</span> ${esc(ev.kind)}` : ''}</p>
+          <h3>${inline(ev.title)}</h3>
+          <p class="event-venue">${map ? `<a href="${esc(map)}">${esc(venue.name)}</a>` : esc(venue.name)}${venue.address ? `<span class="event-address">${esc(venue.address)}</span>` : ''}</p>
+          <div class="prose">${paras(ev.description)}</div>
+          ${programList(ev)}
+          ${performerList(ctx, ev, href)}
+          <div class="event-foot">
+            ${ticketBlock(ev, fest, href)}
+            ${ev.past ? '' : `<a class="add-cal" href="${href(`${ctx.yearBase}calendar/${ev.id}.ics`)}">Add to calendar</a>`}
+          </div>
+        </div>
       </article>`;
         })
         .join('');
@@ -391,10 +579,10 @@ function schedulePage(ctx) {
     })
     .join('');
 
-  const intro = fest.scheduleNote ? paras(fest.scheduleNote) : '';
   const body = `
-${pageHead(`${fest.year} <span class="sep">·</span> ${esc(dateRange(fest, { withYear: false }))}`, 'Schedule', intro)}
-<div class="wrap schedule">${dayBlocks || '<p>The schedule will be announced soon.</p>'}</div>
+${pageHead(`${fest.year} <span class="sep">·</span> ${esc(dateRange(fest, { withYear: false }))}`, 'Schedule', paras(fest.scheduleNote))}
+${fest.events.length ? `<section class="band band-tint"><div class="wrap">${calendarGrid(ctx, href)}${fest.over ? '' : `<p class="cal-ics"><a href="${href(`${ctx.yearBase}festival-${fest.year}.ics`)}">Add every event to your calendar&nbsp;→</a></p>`}</div></section>` : ''}
+<div class="wrap schedule">${dayBlocks || '<p class="lead">The schedule will be announced soon.</p>'}</div>
 `;
   return layout(ctx, { title: `Schedule ${fest.year}`, section: 'schedule', body });
 }
@@ -408,20 +596,18 @@ function artistsPage(ctx) {
       const a = artists[id];
       const events = fest.events.filter((ev) => ev.performers?.includes(id));
       const appearances = events.length
-        ? `<p class="appearances"><span class="label">Appearing</span> ${events
-            .map((ev) => `<a href="${href(`${ctx.yearBase}schedule/#${ev.id}`)}">${inline(ev.title)}</a> <span class="muted">${shortDate(ev.date)}</span>`)
-            .join('<span class="sep">·</span>')}</p>`
+        ? `<div class="appearances"><h3 class="label">Appearing</h3><ul class="plain">${events
+            .map((ev) => `<li><a href="${href(`${ctx.yearBase}schedule/#${ev.id}`)}">${inline(ev.title)}</a> <span class="muted">${longDate(ev.date)}</span></li>`)
+            .join('')}</ul></div>`
         : '';
       return `
   <article class="artist" id="${esc(id)}">
-    <div class="artist-id">
-      ${a.photo ? `<img src="${href(a.photo)}" alt="${esc(a.name)}" loading="lazy" width="480" height="600">` : ''}
+    <div class="portrait">${portrait(href, a)}</div>
+    <div class="artist-bio">
       <h2>${esc(a.name)}</h2>
       <p class="instrument">${esc(a.instrument)}</p>
-      ${a.website ? `<p class="artist-site"><a href="${esc(a.website)}">Website</a></p>` : ''}
-    </div>
-    <div class="artist-bio">
       <div class="prose">${paras(a.bio)}</div>
+      ${a.website ? `<p class="artist-site"><a href="${esc(a.website)}">Website&nbsp;→</a></p>` : ''}
       ${appearances}
     </div>
   </article>`;
@@ -430,13 +616,27 @@ function artistsPage(ctx) {
 
   const body = `
 ${pageHead(`${fest.year} Festival`, 'Artists')}
-<div class="wrap artists">${list || '<p>Artists will be announced soon.</p>'}</div>
+<div class="wrap artists">${list || '<p class="lead">Artists will be announced soon.</p>'}</div>
 `;
   return layout(ctx, { title: `Artists ${fest.year}`, section: 'artists', body });
 }
 
+function photosPage(ctx) {
+  const { fest, festivals } = ctx;
+  const href = linker(ctx.dir);
+  const others = festivals.filter((f) => f !== fest && f.gallery.length);
+  const empty = `<div class="wrap"><p class="lead">Photographs from the ${fest.year} festival will appear here${fest.over ? ' soon' : ' after the festival'}.</p>
+    ${others.length ? `<p>${others.map((f) => `<a href="${href(`${f === ctx.latest ? '' : `${f.year}/`}photos/`)}">Photographs from ${f.year}&nbsp;→</a>`).join('<br>')}</p>` : ''}</div>`;
+  const body = `
+${pageHead(`${fest.year} Festival`, 'Photographs')}
+<section class="band band-plain">${fest.gallery.length ? `<div class="wrap-wide">${gallery(href, fest.gallery)}</div>` : empty}</section>
+`;
+  return layout(ctx, { title: `Photographs ${fest.year}`, section: 'photos', body });
+}
+
 function aboutPage(ctx) {
   const { site } = ctx;
+  const href = linker(ctx.dir);
   const team = (site.team ?? [])
     .map(
       (p) => `<li class="person">
@@ -452,10 +652,13 @@ function aboutPage(ctx) {
     .map((v) => {
       const map = mapUrl(v);
       return `<li class="venue">
-        <h3>${esc(v.name)}</h3>
-        ${v.address ? `<p class="muted">${esc(v.address)}</p>` : ''}
-        ${v.description ? `<div class="prose">${paras(v.description)}</div>` : ''}
-        ${map ? `<p><a href="${esc(map)}">Map&nbsp;→</a></p>` : ''}
+        ${v.image ? `<div class="venue-photo">${img(href, v.image, { focus: v.imageFocus })}</div>` : ''}
+        <div>
+          <h3>${esc(v.name)}</h3>
+          ${v.address ? `<p class="muted">${esc(v.address)}</p>` : ''}
+          ${v.description ? `<div class="prose">${paras(v.description)}</div>` : ''}
+          ${map ? `<p><a href="${esc(map)}">Map&nbsp;→</a></p>` : ''}
+        </div>
       </li>`;
     })
     .join('');
@@ -463,38 +666,38 @@ function aboutPage(ctx) {
   const s = site.support ?? {};
   const body = `
 ${pageHead('About', 'The Festival', paras(site.tagline))}
-<section class="section">
+<section class="band band-plain">
   <div class="wrap split">
     <h2 class="label">Our story</h2>
     <div class="prose lead">${paras(site.about)}</div>
   </div>
 </section>
-${team ? `<section class="section">
+${team ? `<section class="band band-tint">
   <div class="wrap split">
     <h2 class="label">People</h2>
     <ul class="people">${team}</ul>
   </div>
 </section>` : ''}
-${venues ? `<section class="section">
+${venues ? `<section class="band band-plain">
   <div class="wrap split">
     <h2 class="label">Venues</h2>
     <ul class="venues">${venues}</ul>
   </div>
 </section>` : ''}
-<section class="section" id="support">
+<section class="band band-tint" id="support">
   <div class="wrap split">
     <h2 class="label">Support</h2>
     <div class="prose">
       ${paras(s.text)}
       <p class="actions">
-        ${s.donateUrl ? `<a class="button button-primary" href="${esc(s.donateUrl)}">Make a gift</a>` : ''}
+        ${s.donateUrl ? `<a class="button button-primary" href="${esc(href(s.donateUrl))}">Make a gift</a>` : ''}
         ${s.volunteerUrl ? `<a class="button" href="${esc(s.volunteerUrl)}">Volunteer</a>` : ''}
       </p>
       ${s.sponsors?.length ? `<h3>With thanks to</h3><ul class="plain sponsors">${s.sponsors.map((sp) => `<li>${sp.url ? `<a href="${esc(sp.url)}">${esc(sp.name)}</a>` : esc(sp.name)}</li>`).join('')}</ul>` : ''}
     </div>
   </div>
 </section>
-<section class="section" id="contact">
+<section class="band band-plain" id="contact">
   <div class="wrap split">
     <h2 class="label">Contact</h2>
     <div class="prose">
@@ -512,7 +715,7 @@ function notFoundPage(data) {
   // links can't be trusted here; use site.basePath instead.
   const base = data.site.basePath ?? '/';
   const ctx = { ...data, fest: data.latest, dir: '', yearBase: '' };
-  const body = `${pageHead('Not found', 'This page has wandered off', `<p><a href="${esc(base)}">Return to the festival&nbsp;→</a></p>`)}`;
+  const body = pageHead('Not found', 'This page has wandered off', `<p><a href="${esc(base)}">Return to the festival&nbsp;→</a></p>`);
   return layout(ctx, { title: 'Not found', section: '404', body })
     .replaceAll('href="./', `href="${base}`)
     .replace(/href="(?!https?:|mailto:|\/|#)/g, `href="${base}`);
@@ -521,10 +724,10 @@ function notFoundPage(data) {
 // ---------------------------------------------------------------------------
 // Build
 
-async function write(dir, html) {
-  const target = path.join(OUT, dir, 'index.html');
+async function write(file, content) {
+  const target = path.join(OUT, file);
   await mkdir(path.dirname(target), { recursive: true });
-  await writeFile(target, html);
+  await writeFile(target, content);
 }
 
 async function build() {
@@ -537,30 +740,35 @@ async function build() {
     ['', homePage],
     ['schedule/', schedulePage],
     ['artists/', artistsPage],
+    ['photos/', photosPage],
   ];
 
   let count = 0;
   for (const fest of data.festivals) {
+    // Links on every page of the latest year point at the root copies.
+    const yearBase = fest === data.latest ? '' : `${fest.year}/`;
     const roots = fest === data.latest ? ['', `${fest.year}/`] : [`${fest.year}/`];
     for (const root of roots) {
       for (const [sub, render] of pages) {
         const dir = root + sub;
-        // Links on every page of the latest year point at the root copies.
-        const yearBase = fest === data.latest ? '' : `${fest.year}/`;
-        await write(dir, render({ ...data, fest, dir, yearBase }));
+        await write(`${dir}index.html`, render({ ...data, fest, dir, yearBase }));
         count++;
       }
+      const all = fest.events.map((ev) => ({ ev, fest }));
+      await write(`${root}festival-${fest.year}.ics`, icsCalendar(data.site, `${data.site.name} ${fest.year}`, all));
+      for (const item of all) await write(`${root}calendar/${item.ev.id}.ics`, icsCalendar(data.site, data.site.name, [item]));
     }
   }
-  await write('about/', aboutPage({ ...data, fest: data.latest, dir: 'about/', yearBase: '' }));
-  await writeFile(path.join(OUT, '404.html'), notFoundPage(data));
+  await write('about/index.html', aboutPage({ ...data, fest: data.latest, dir: 'about/', yearBase: '' }));
+  await write('404.html', notFoundPage(data));
   count += 2;
 
-  console.log(`Built ${count} pages for ${data.festivals.map((f) => f.year).join(', ')} (latest: ${data.latest.year}) → dist/`);
+  const state = data.latest.over ? 'over' : 'upcoming';
+  console.log(`Built ${count} pages for ${data.festivals.map((f) => f.year).join(', ')} (latest: ${data.latest.year}, ${state} as of ${data.today}) → dist/`);
 }
 
 function serve(port = 8080) {
-  const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.pdf': 'application/pdf' };
+  const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.pdf': 'application/pdf', '.ics': 'text/calendar; charset=utf-8' };
   createServer(async (req, res) => {
     let p = path.join(OUT, decodeURIComponent(new URL(req.url, 'http://x').pathname));
     if (!p.startsWith(OUT)) return res.writeHead(403).end();

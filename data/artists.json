@@ -2,11 +2,21 @@
   "clara-whitmore": {
     "name": "Clara Whitmore",
     "instrument": "violin",
-    "photo": null,
+    "photo": "images/artists/clara-whitmore.jpg",
+    "photoFocus": "38% 40%",
     "website": null,
     "bio": [
       "Placeholder biography. Clara Whitmore has appeared as soloist and chamber musician across North America and Europe, and is a founding member of a string quartet known for its performances of *Haydn* and of living composers.",
       "She teaches privately and at summer programs, and plays a violin made in Cremona in 1780."
+    ]
+  },
+  "hana-sato": {
+    "name": "Hana Sato",
+    "instrument": "violin",
+    "photo": "images/artists/hana-sato.jpg",
+    "photoFocus": "50% 25%",
+    "bio": [
+      "Placeholder biography. Hana Sato is a violinist and chamber musician who divides her time between performing, teaching and commissioning new work for strings."
     ]
   },
   "julien-arsenault": {
@@ -20,41 +30,37 @@
   "maren-holt": {
     "name": "Maren Holt",
     "instrument": "viola",
-    "photo": null,
+    "photo": "images/artists/maren-holt.jpg",
+    "photoFocus": "45% 40%",
     "bio": [
       "Placeholder biography. Maren Holt is a violist and chamber musician whose work moves between the standard repertoire, new commissions and historical performance."
     ]
   },
-  "thomas-ebright": {
-    "name": "Thomas Ebright",
+  "elise-arsenault": {
+    "name": "Élise Arsenault",
     "instrument": "cello",
-    "photo": null,
+    "photo": "images/artists/elise-arsenault.jpg",
+    "photoFocus": "52% 40%",
     "bio": [
-      "Placeholder biography. Thomas Ebright is principal cellist of a regional orchestra and a frequent guest at chamber music festivals."
+      "Placeholder biography. Élise Arsenault is principal cellist of a regional orchestra and a frequent guest at chamber music festivals."
     ]
   },
-  "isabelle-leblanc": {
-    "name": "Isabelle LeBlanc",
+  "thomas-leblanc": {
+    "name": "Thomas LeBlanc",
     "instrument": "piano",
-    "photo": null,
+    "photo": "images/artists/thomas-leblanc.jpg",
+    "photoFocus": "50% 30%",
     "bio": [
-      "Placeholder biography. Isabelle LeBlanc is a pianist with a particular love for the song and chamber repertoire, and has recorded the complete piano trios of Fanny Mendelssohn."
+      "Placeholder biography. Thomas LeBlanc is a pianist with a particular love for the song and chamber repertoire, and has recorded the complete piano trios of Fanny Mendelssohn."
     ]
   },
   "owen-macleod": {
     "name": "Owen MacLeod",
-    "instrument": "guitar",
-    "photo": null,
-    "bio": [
-      "Placeholder biography. Owen MacLeod is a classical guitarist and arranger whose arrangements of traditional Maritime tunes are a festival favourite."
-    ]
-  },
-  "nadia-roy": {
-    "name": "Nadia Roy",
     "instrument": "clarinet",
-    "photo": null,
+    "photo": "images/artists/owen-macleod.jpg",
+    "photoFocus": "50% 30%",
     "bio": [
-      "Placeholder biography. Nadia Roy performs as a soloist and chamber musician and has premiered more than thirty works for clarinet."
+      "Placeholder biography. Owen MacLeod is a clarinetist and arranger whose arrangements of traditional Maritime tunes are a festival favourite."
     ]
   }
 }

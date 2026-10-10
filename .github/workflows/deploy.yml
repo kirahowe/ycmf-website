@@ -4,6 +4,11 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+  # Rebuild daily so ticket buttons and the front page follow the calendar
+  # (events turn into past events, and the home page switches to a thank-you
+  # once the festival is over) without anyone pushing a change.
+  schedule:
+    - cron: "17 9 * * *"
 
 permissions:
   contents: read
