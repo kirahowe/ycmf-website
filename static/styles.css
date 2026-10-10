@@ -1,0 +1,451 @@
+/* Yarmouth Chamber Music Festival */
+
+:root {
+  --paper: #f6f2ea;
+  --paper-deep: #ede6d8;
+  --ink: #1c1f22;
+  --muted: #64625c;
+  --rule: #d6cdbb;
+  --harbour: #1f3a4a;
+  --harbour-deep: #172c38;
+  --brass: #8a6a37;
+
+  --display: "Cormorant Garamond", "Cormorant", Garamond, "Times New Roman", serif;
+  --text: "EB Garamond", Garamond, Georgia, "Times New Roman", serif;
+
+  --wrap: 72rem;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--text);
+  font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  line-height: 1.6;
+  font-variant-numeric: oldstyle-nums;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.15s;
+}
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--harbour); outline-offset: 3px; }
+
+h1, h2, h3 {
+  font-family: var(--display);
+  font-weight: 500;
+  line-height: 1.1;
+  margin: 0;
+}
+
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.5rem 1rem;
+}
+.skip:focus { left: 0; z-index: 10; }
+
+/* Small caps labels */
+.label,
+.eyebrow,
+.instrument,
+.event-meta,
+.year-switch-label,
+.button {
+  font-family: var(--text);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.09em;
+  font-weight: 500;
+  font-size: 1.05em;
+}
+.eyebrow { color: var(--brass); margin-bottom: 1rem; }
+.instrument { color: var(--muted); font-weight: 400; }
+.muted { color: var(--muted); }
+.sep { color: var(--rule); padding: 0 0.15em; }
+
+/* Header -------------------------------------------------------------- */
+
+.site-header { border-bottom: 1px solid var(--rule); }
+
+.header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  line-height: 1;
+}
+.brand-place {
+  font-family: var(--display);
+  font-size: 1.85rem;
+  letter-spacing: 0.02em;
+}
+.brand-rest {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.14em;
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+.nav { margin-left: auto; }
+.nav > ul {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav a { text-decoration: none; }
+.nav a[aria-current="page"] {
+  text-decoration-line: underline;
+  text-decoration-color: var(--brass);
+}
+.nav-support { color: var(--brass); }
+
+/* Year switcher: a <details> disclosure, no script needed */
+.year-switch { position: relative; }
+.year-switch summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.2rem 0.75rem;
+  border: 1px solid var(--rule);
+  white-space: nowrap;
+}
+.year-switch summary::-webkit-details-marker { display: none; }
+.year-switch summary::after {
+  content: "";
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  margin-left: 0.55em;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-0.2em) rotate(45deg);
+}
+.year-switch[open] summary::after { transform: translateY(0.05em) rotate(-135deg); }
+.year-switch-label { color: var(--muted); font-size: 0.95em; margin-right: 0.2em; }
+.year-switch ul {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.35rem);
+  z-index: 5;
+  min-width: 100%;
+  margin: 0;
+  padding: 0.35rem 0;
+  list-style: none;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+}
+.year-switch li a {
+  display: block;
+  padding: 0.25rem 0.75rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.year-switch li a:hover { background: var(--paper-deep); }
+.year-switch li a[aria-current="page"] { color: var(--brass); }
+.year-switch li span { color: var(--muted); font-style: italic; font-size: 0.9em; }
+
+.archive-note {
+  background: var(--paper-deep);
+  border-bottom: 1px solid var(--rule);
+  padding: 0.6rem 0;
+  font-size: 0.95em;
+  font-style: italic;
+}
+
+/* Buttons ------------------------------------------------------------- */
+
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+.actions:empty { display: none; }
+
+.button {
+  display: inline-block;
+  padding: 0.55rem 1.4rem 0.65rem;
+  border: 1px solid var(--ink);
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+.button:hover { background: var(--ink); color: var(--paper); }
+.button-primary { background: var(--harbour); border-color: var(--harbour); color: var(--paper); }
+.button-primary:hover { background: var(--harbour-deep); border-color: var(--harbour-deep); }
+.button-light { background: var(--paper); border-color: var(--paper); color: var(--harbour-deep); }
+.button-light:hover { background: transparent; color: var(--paper); }
+.button-ghost { border-color: rgba(246, 242, 234, 0.5); color: var(--paper); }
+.button-ghost:hover { background: var(--paper); color: var(--harbour-deep); }
+
+/* Masthead ------------------------------------------------------------ */
+
+.masthead {
+  text-align: center;
+  padding: clamp(3.5rem, 9vw, 7rem) 0 clamp(3rem, 7vw, 5.5rem);
+  border-bottom: 1px solid var(--rule);
+}
+.masthead h1 { display: flex; flex-direction: column; align-items: center; }
+.masthead-name {
+  font-size: clamp(1.9rem, 1.2rem + 3vw, 3.4rem);
+  letter-spacing: 0.01em;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+.masthead-year {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1.5rem;
+  width: min(100%, 34rem);
+  margin-top: 0.4rem;
+  font-size: clamp(4.5rem, 3rem + 7vw, 8.5rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--harbour);
+}
+.masthead-year::before,
+.masthead-year::after { content: ""; border-top: 1px solid var(--rule); }
+.masthead-dates { margin-top: 1.5rem; font-size: 1.15em; }
+.masthead-tagline {
+  font-style: italic;
+  color: var(--muted);
+  max-width: 34rem;
+  margin: 0.5rem auto 0;
+}
+.masthead .actions { justify-content: center; }
+
+/* Sections ------------------------------------------------------------ */
+
+.section { padding: clamp(3rem, 7vw, 5rem) 0; border-bottom: 1px solid var(--rule); }
+.section:last-child { border-bottom: 0; }
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(10rem, 16rem) minmax(0, 1fr);
+  gap: 1.5rem 3rem;
+}
+.split > .label { padding-top: 0.35rem; }
+
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--ink);
+}
+.section-head h2 { font-size: clamp(2rem, 1.6rem + 1.5vw, 2.75rem); }
+.section-head a { font-style: italic; }
+
+.prose { max-width: 38rem; }
+.prose h3 { font-size: 1.5rem; margin: 2rem 0 0.75rem; }
+.lead { font-size: 1.15em; }
+
+.plain { list-style: none; margin: 0; padding: 0; }
+
+/* Program at a glance */
+.glance { list-style: none; margin: 0; padding: 0; }
+.glance li { border-bottom: 1px solid var(--rule); }
+.glance a {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr) auto;
+  gap: 0.25rem 1.5rem;
+  align-items: baseline;
+  padding: 1.1rem 0;
+  text-decoration: none;
+}
+.glance a:hover .glance-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+.glance-date { font-variant-caps: all-small-caps; letter-spacing: 0.08em; color: var(--brass); }
+.glance-title { font-family: var(--display); font-size: 1.55rem; line-height: 1.2; }
+.glance-venue { display: block; font-family: var(--text); font-size: 1rem; color: var(--muted); margin-top: 0.2rem; }
+.glance-time { color: var(--muted); white-space: nowrap; }
+
+/* Roster */
+.roster {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  column-gap: 2.5rem;
+}
+.roster li { border-bottom: 1px solid var(--rule); }
+.roster a { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.9rem 0; text-decoration: none; }
+.roster-name { font-family: var(--display); font-size: 1.45rem; }
+.roster a:hover .roster-name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+
+/* Support band */
+.band { background: var(--harbour); color: var(--paper); padding: clamp(3rem, 7vw, 5rem) 0; }
+.band-inner { text-align: center; }
+.band-text {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem);
+  line-height: 1.25;
+  max-width: 36rem;
+  margin: 0 auto;
+  text-wrap: balance;
+}
+.band .actions { justify-content: center; }
+
+/* Page heads ---------------------------------------------------------- */
+
+.page-head { padding: clamp(3rem, 7vw, 5rem) 0 clamp(2rem, 4vw, 3rem); border-bottom: 1px solid var(--ink); }
+.page-head h1 { font-size: clamp(2.75rem, 2rem + 3.5vw, 4.75rem); font-weight: 400; }
+.page-intro { margin-top: 1.25rem; max-width: 38rem; color: var(--muted); font-style: italic; }
+
+/* Schedule ------------------------------------------------------------ */
+
+.day {
+  display: grid;
+  grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr);
+  gap: 1rem 3rem;
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.day:last-child { border-bottom: 0; }
+.day-date { display: flex; flex-direction: column; align-items: flex-start; align-self: start; position: sticky; top: 1.5rem; }
+.day-weekday { font-family: var(--text); font-variant-caps: all-small-caps; letter-spacing: 0.09em; color: var(--brass); font-size: 1.1rem; }
+.day-num { font-size: 4.25rem; line-height: 0.95; font-weight: 400; font-variant-numeric: lining-nums; }
+.day-month { font-family: var(--text); font-style: italic; color: var(--muted); font-size: 1.1rem; }
+
+.event + .event { margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--rule); }
+.event { scroll-margin-top: 1.5rem; }
+.event-meta { color: var(--muted); margin-bottom: 0.4rem; }
+.event-time { color: var(--ink); }
+.event h3 { font-size: clamp(2rem, 1.6rem + 1.4vw, 2.6rem); margin-bottom: 0.6rem; }
+.event-venue { margin-bottom: 1.25rem; }
+.event-address { display: block; color: var(--muted); font-size: 0.95em; }
+.event .prose { margin-bottom: 1.5rem; }
+
+.program {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  max-width: 38rem;
+}
+.program li + li { margin-top: 0.75rem; }
+.composer {
+  display: block;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+.work-note { color: var(--muted); font-style: italic; }
+.work-note::before { content: "— "; font-style: normal; }
+
+.performers {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1.5rem;
+}
+
+.event-tickets { margin: 0; }
+.price { font-weight: 500; }
+.sold-out { font-style: italic; color: var(--muted); }
+
+/* Artists ------------------------------------------------------------- */
+
+.artist {
+  display: grid;
+  grid-template-columns: minmax(10rem, 16rem) minmax(0, 1fr);
+  gap: 1.5rem 3rem;
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--rule);
+  scroll-margin-top: 1rem;
+}
+.artist:last-child { border-bottom: 0; }
+.artist-id img { margin-bottom: 1.25rem; filter: grayscale(0.15); }
+.artist-id h2 { font-size: 2.1rem; }
+.artist-id .instrument { margin-top: 0.25rem; }
+.artist-site { margin-top: 0.5rem; font-style: italic; }
+.appearances { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--rule); max-width: 38rem; }
+.appearances .label { display: block; color: var(--brass); }
+.appearances .sep { padding: 0 0.5em; }
+
+/* About --------------------------------------------------------------- */
+
+.people, .venues { list-style: none; margin: 0; padding: 0; display: grid; gap: 2.25rem; }
+.people h3, .venues h3 { font-size: 1.75rem; }
+.person .instrument { margin: 0.2rem 0 0.75rem; }
+.venue .muted { margin: 0.2rem 0 0.75rem; }
+.sponsors li + li { margin-top: 0.25rem; }
+
+/* Footer -------------------------------------------------------------- */
+
+.site-footer {
+  background: var(--paper-deep);
+  border-top: 1px solid var(--rule);
+  padding: 3.5rem 0 1.5rem;
+  font-size: 0.95em;
+}
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem 3rem; }
+.footer-name { font-family: var(--display); font-size: 1.6rem; line-height: 1.2; margin-bottom: 0.25rem; }
+.footer-ack { margin-top: 1.25rem; font-style: italic; color: var(--muted); max-width: 28rem; }
+.site-footer .label { font-size: 1rem; color: var(--brass); margin-bottom: 0.5rem; }
+.footer-base { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.9em; }
+
+/* Small screens ------------------------------------------------------- */
+
+@media (max-width: 52rem) {
+  .split, .day, .artist { grid-template-columns: minmax(0, 1fr); }
+  .day-date { position: static; flex-direction: row; align-items: baseline; gap: 0.6rem; }
+  .day-num { font-size: 2.5rem; }
+  .footer-grid { grid-template-columns: minmax(0, 1fr); }
+  .artist-id img { max-width: 16rem; }
+}
+
+@media (max-width: 40rem) {
+  .header-inner { column-gap: 1rem; }
+  .nav { order: 3; width: 100%; padding-top: 0.75rem; border-top: 1px solid var(--rule); }
+  .nav > ul { justify-content: space-between; gap: 1rem; }
+  .glance a { grid-template-columns: minmax(0, 1fr) auto; }
+  .glance-date { grid-column: 1 / -1; }
+}
+
+@media print {
+  .site-header, .site-footer, .band, .actions, .archive-note { display: none; }
+  body { background: #fff; }
+}

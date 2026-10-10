@@ -1,0 +1,63 @@
+{
+  "year": 2024,
+  "theme": null,
+  "tagline": "Ten days of chamber music in kitchens, chapels and concert halls.",
+  "intro": [
+    "Placeholder. In its first season the festival brought a small company of musicians to Yarmouth for ten days of concerts in intimate spaces, from a farmhouse kitchen in Hebron to a candlelit cemetery chapel."
+  ],
+  "ticketsUrl": "#",
+  "scheduleNote": ["Seating is limited at every event. Doors open thirty minutes before each concert."],
+  "artists": ["clara-whitmore", "maren-holt", "thomas-ebright", "isabelle-leblanc", "owen-macleod"],
+  "events": [
+    {
+      "id": "kitchen-party-1",
+      "title": "Classical Kitchen Party",
+      "kind": "House concert",
+      "date": "2024-10-03",
+      "time": "19:00",
+      "venue": "hebron-house",
+      "description": [
+        "An intimate house concert that brings artists and listeners together over music, stories and Maritime hospitality. Refreshments included."
+      ],
+      "program": [
+        { "work": "Selections for strings and guitar" }
+      ],
+      "performers": ["clara-whitmore", "thomas-ebright", "owen-macleod"],
+      "tickets": { "price": "$45" }
+    },
+    {
+      "id": "night-music",
+      "title": "Night Music in the Dark",
+      "kind": "Concert",
+      "date": "2024-10-10",
+      "time": "19:00",
+      "venue": "mountain-cemetery-chapel",
+      "description": [
+        "A candlelit evening of luminous, unhurried music in the historic chapel. Dress warmly."
+      ],
+      "program": [
+        { "composer": "Arvo Pärt", "work": "*Spiegel im Spiegel*" },
+        { "composer": "Festival commission", "work": "New work", "note": "world premiere" }
+      ],
+      "performers": ["clara-whitmore", "isabelle-leblanc"],
+      "tickets": { "price": "$50" }
+    },
+    {
+      "id": "finale",
+      "title": "Finale",
+      "kind": "Concert",
+      "date": "2024-10-11",
+      "time": "19:00",
+      "venue": "universite-sainte-anne",
+      "description": [
+        "A celebratory program pairing beloved repertoire with a world premiere inspired by Yarmouth's coastal landscape. A reception with the artists follows."
+      ],
+      "program": [
+        { "composer": "Fanny Mendelssohn", "work": "String Quartet in E-flat major" },
+        { "composer": "Festival commission", "work": "New work", "note": "world premiere" }
+      ],
+      "performers": ["clara-whitmore", "maren-holt", "thomas-ebright", "isabelle-leblanc"],
+      "tickets": { "price": "$30" }
+    }
+  ]
+}

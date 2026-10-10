@@ -1,0 +1,95 @@
+{
+  "year": 2025,
+  "theme": null,
+  "tagline": "Ten days of chamber music in kitchens, chapels and concert halls.",
+  "intro": [
+    "Placeholder. For its second season the festival returns to Yarmouth with a slightly larger company of musicians, two kitchen parties, an evening in the cemetery chapel and a finale at Université Sainte-Anne.",
+    "Placeholder. Every event is small by design. Come early, sit close, and stay to meet the musicians afterward."
+  ],
+  "ticketsUrl": "#",
+  "scheduleNote": ["Seating is limited at every event. Doors open thirty minutes before each concert."],
+  "artists": ["clara-whitmore", "julien-arsenault", "maren-holt", "thomas-ebright", "isabelle-leblanc", "owen-macleod", "nadia-roy"],
+  "events": [
+    {
+      "id": "kitchen-party-1",
+      "title": "Classical Kitchen Party I",
+      "kind": "House concert",
+      "date": "2025-10-02",
+      "time": "19:00",
+      "venue": "hebron-house",
+      "description": [
+        "The festival opens the way it began: in a kitchen, with music, food and good company. Refreshments included."
+      ],
+      "program": [
+        { "composer": "Joseph Haydn", "work": "String Quartet in D major, Op. 76 No. 5" },
+        { "composer": "Traditional", "work": "Maritime tunes", "note": "arr. Owen MacLeod" }
+      ],
+      "performers": ["clara-whitmore", "julien-arsenault", "maren-holt", "thomas-ebright", "owen-macleod"],
+      "tickets": { "price": "$45" }
+    },
+    {
+      "id": "open-rehearsal",
+      "title": "Open Rehearsal",
+      "kind": "Free event",
+      "date": "2025-10-04",
+      "time": "11:00",
+      "venue": "tba",
+      "description": [
+        "Drop in and listen as the musicians work through the week's music. Come and go as you please."
+      ],
+      "performers": ["clara-whitmore", "julien-arsenault", "maren-holt", "thomas-ebright", "isabelle-leblanc"],
+      "tickets": { "price": "Free", "url": null }
+    },
+    {
+      "id": "kitchen-party-2",
+      "title": "Classical Kitchen Party II",
+      "kind": "House concert",
+      "date": "2025-10-05",
+      "time": "16:00",
+      "venue": "hebron-house",
+      "description": [
+        "An afternoon house concert of music for clarinet and strings."
+      ],
+      "program": [
+        { "composer": "Wolfgang Amadeus Mozart", "work": "Clarinet Quintet in A major, K. 581" }
+      ],
+      "performers": ["nadia-roy", "clara-whitmore", "julien-arsenault", "maren-holt", "thomas-ebright"],
+      "tickets": { "price": "$45", "soldOut": true }
+    },
+    {
+      "id": "night-music",
+      "title": "Night Music in the Dark",
+      "kind": "Concert",
+      "date": "2025-10-09",
+      "time": "19:30",
+      "venue": "mountain-cemetery-chapel",
+      "description": [
+        "The candlelit evening returns. Spacious, quiet music in near-darkness. Dress warmly."
+      ],
+      "program": [
+        { "composer": "Arvo Pärt", "work": "*Fratres*" },
+        { "composer": "Olivier Messiaen", "work": "*Louange à l'éternité de Jésus*", "note": "from *Quatuor pour la fin du temps*" },
+        { "composer": "Placeholder Composer", "work": "New work", "note": "festival commission, world premiere" }
+      ],
+      "performers": ["julien-arsenault", "thomas-ebright", "isabelle-leblanc"],
+      "tickets": { "price": "$50" }
+    },
+    {
+      "id": "finale",
+      "title": "Finale",
+      "kind": "Concert",
+      "date": "2025-10-11",
+      "time": "19:30",
+      "venue": "universite-sainte-anne",
+      "description": [
+        "The whole company comes together to close the season. A reception with the artists follows."
+      ],
+      "program": [
+        { "composer": "Johannes Brahms", "work": "Clarinet Trio in A minor, Op. 114" },
+        { "composer": "Robert Schumann", "work": "Piano Quintet in E-flat major, Op. 44" }
+      ],
+      "performers": ["clara-whitmore", "julien-arsenault", "maren-holt", "thomas-ebright", "isabelle-leblanc", "nadia-roy"],
+      "tickets": { "price": "$35", "note": "students free" }
+    }
+  ]
+}
