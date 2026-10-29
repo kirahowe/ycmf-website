@@ -1,90 +1,359 @@
 {
   "year": 2025,
-  "headline": "Ten days of chamber music on the southern shore",
-  "summary": "Kitchen parties, a candlelit night in the cemetery chapel, and a finale at Université Sainte-Anne.",
+  "headline": "Intimate venues, eminent musicians",
+  "summary": [
+    "Kitchen parties, a cello recital, Night Music in the dark, and finales in Clare and Yarmouth with the world premiere of Derek Charke’s *Harvest Dusk*."
+  ],
   "intro": [
-    "Placeholder. In its first season the festival brought a small company of musicians to Yarmouth for ten days of concerts in intimate spaces, from a farmhouse kitchen in Hebron to a candlelit cemetery chapel."
+    "Our goal in producing this festival has always been to create something truly meaningful for our region: an event that celebrates world-class artistry while staying deeply rooted in community. We believe that great music shouldn’t be confined to big cities or concert halls. It should be something everyone can experience, regardless of age, background, or income.",
+    "That’s why this festival isn’t just about concerts. It’s about free performances in schools and long-term care homes, bilingual programming that reflects our Acadian heritage, and open rehearsals held in public spaces where people can experience the creative process up close. It’s about artists meeting audiences. Not from a distance, but in shared spaces, as neighbours."
   ],
   "heroImages": [
-    { "src": "images/events/finale.jpg", "caption": "Finale, Université Sainte-Anne" },
-    { "src": "images/site/lighthouse.jpg", "focus": "50% 30%" },
-    { "src": "images/events/night-music.jpg", "focus": "50% 40%" }
-  ],
-  "ticketsUrl": "#",
-  "scheduleNote": ["Seating is limited at every event. Doors open thirty minutes before each concert."],
-  "artists": ["clara-whitmore", "julien-arsenault", "maren-holt", "elise-arsenault", "thomas-leblanc", "owen-macleod"],
-  "events": [
     {
-      "id": "kitchen-party",
-      "title": "Classical Kitchen Party",
-      "kind": "House concert",
-      "date": "2025-10-02",
-      "time": "19:00",
-      "venue": "hebron-house",
-      "image": "images/events/kitchen-party.jpg",
-      "description": ["An intimate house concert that brings artists and listeners together over music, stories and Maritime hospitality. Refreshments included."],
-      "program": [
-        { "composer": "Joseph Haydn", "work": "String Quartet in D major, Op. 76 No. 5" },
-        { "composer": "Traditional", "work": "Maritime tunes", "note": "arr. Owen MacLeod" }
-      ],
-      "performers": ["clara-whitmore", "julien-arsenault", "maren-holt", "elise-arsenault", "owen-macleod"],
-      "tickets": { "price": "$45" }
+      "src": "images/gallery/2025-rehearsal.jpg",
+      "focus": "40% 35%",
+      "caption": "Photo: Adam Bissonnette"
     },
     {
-      "id": "open-rehearsal",
-      "title": "Open Rehearsal",
-      "kind": "Free event",
+      "src": "images/artists/sophie-shao.jpg",
+      "focus": "45% 40%"
+    },
+    {
+      "src": "images/artists/maureen-nelson.jpg",
+      "focus": "60% 15%"
+    }
+  ],
+  "ticketsUrl": "https://buytickets.at/hearheresociety",
+  "scheduleNote": [
+    "The festival also included free open rehearsals at the Yarmouth Mall and Third Cup Café, a panel discussion with the musicians at the Yarmouth Waterfront Gallery, and free performances in schools and long-term care homes."
+  ],
+  "artists": [
+    "maureen-nelson",
+    "geoffrey-day",
+    "david-yang",
+    "sophie-shao",
+    "eliana-razzino-yang",
+    "lan-day",
+    "derek-charke"
+  ],
+  "events": [
+    {
+      "id": "kitchen-party-1",
+      "title": "Festival Kitchen Party I",
+      "kind": "Kitchen party",
+      "date": "2025-10-03",
+      "time": "19:00",
+      "duration": 90,
+      "venue": "kitchen-hebron",
+      "image": "images/gallery/2025-rehearsal.jpg",
+      "imageFocus": "40% 35%",
+      "description": [
+        "Meet the festival quartet and hear them play works by your favorite composers. Dessert will be served. Very limited seating - exact location in town (Yarmouth) will be disclosed after tickets are purchased.",
+        "*What to expect*",
+        "- Music in a private, welcoming home setting",
+        "- Conversation and connection with the musicians — ask questions, hear the stories behind the music, and even choose what the musicians play!",
+        "- A relaxed atmosphere that blends the warmth of a Nova Scotian kitchen party with the beauty of chamber music",
+        "- Dessert will be served",
+        "The most unique part of the evening is that you get to choose the program. Festival Artistic Director and violist David Yang will bring a stack of string quartets followed by lively voting from the attendees on which composer they want the musicians to play: it's sight reading as a contact sport!"
+      ],
+      "performers": [
+        "maureen-nelson",
+        "geoffrey-day",
+        "david-yang",
+        "sophie-shao"
+      ],
+      "tickets": {
+        "price": "$45",
+        "url": "https://buytickets.at/hearheresociety/1851256",
+        "soldOut": true
+      }
+    },
+    {
+      "id": "kitchen-party-2",
+      "title": "Festival Kitchen Party II",
+      "kind": "Kitchen party",
       "date": "2025-10-04",
-      "time": "11:00",
-      "venue": "tba",
-      "image": "images/events/open-rehearsal.jpg",
-      "description": ["Drop in and listen as the musicians work through the week's music. Come and go as you please."],
-      "performers": ["clara-whitmore", "julien-arsenault", "maren-holt", "elise-arsenault", "thomas-leblanc"],
-      "tickets": { "price": "Free", "url": null }
+      "time": "15:00",
+      "duration": 90,
+      "venue": "kitchen-argyle",
+      "image": "images/artists/geoffrey-day.jpg",
+      "imageFocus": "50% 25%",
+      "description": [
+        "Meet the festival quartet and hear them play works by your favorite composers. Hors d'oeuvres will be served. Very limited seating - exact location (25 minutes from Yarmouth) will be disclosed after tickets are purchased.",
+        "*What to expect*",
+        "- Music in a private, welcoming home setting",
+        "- Conversation and connection with the musicians — ask questions, hear the stories behind the music, and even choose what the musicians play!",
+        "- A relaxed atmosphere that blends the warmth of a Nova Scotian kitchen party with the beauty of chamber music",
+        "- Hors d'oeuvres will be served",
+        "The most unique part of the evening is that you get to choose the program. Festival Artistic Director and violist David Yang will bring a stack of string quartets followed by lively voting from the attendees on which composer they want the musicians to play: it's sight reading as a contact sport!"
+      ],
+      "performers": [
+        "maureen-nelson",
+        "geoffrey-day",
+        "david-yang",
+        "sophie-shao"
+      ],
+      "tickets": {
+        "price": "$45",
+        "url": "https://buytickets.at/hearheresociety/1851750",
+        "soldOut": true
+      }
+    },
+    {
+      "id": "cello-recital-1",
+      "title": "Eliana Razzino Yang in Recital",
+      "kind": "Cello recital",
+      "date": "2025-10-08",
+      "time": "19:00",
+      "duration": 120,
+      "venue": "county-museum",
+      "image": "images/artists/eliana-razzino-yang.jpg",
+      "imageFocus": "50% 12%",
+      "description": [
+        "Eliana Razzino Yang performs the music of Bach, Kodaly and Beethoven assisted by pianist Lan Lam Day and violinist Geoffrey Day. The program includes Bach's 5th Suite, the Kodaly Duo for violin and cello, and Beethoven's Sonata in G minor."
+      ],
+      "program": [
+        {
+          "composer": "Johann Sebastian Bach (1685–1750)",
+          "work": "Cello Suite No. 5 in C minor, BWV 1011",
+          "note": "Prelude; Allemande; Courante; Sarabande; Gavotte I & II; Gigue"
+        },
+        {
+          "composer": "Zoltán Kodály (1882–1967)",
+          "work": "Duo, Op. 7 for violin and cello (1914)",
+          "note": "Allegro serioso, non troppo; Adagio; Maestoso e largamente, ma non troppo lento — Presto"
+        },
+        {
+          "composer": "Ludwig van Beethoven (1770–1827)",
+          "work": "Sonata No. 2 in G minor, Op. 5 No. 2",
+          "note": "Adagio sostenuto e espressivo — Allegro molto più tosto presto; Rondo. Allegro"
+        }
+      ],
+      "performers": [
+        "eliana-razzino-yang",
+        "geoffrey-day",
+        "lan-day"
+      ],
+      "tickets": {
+        "price": "$30",
+        "note": "students $10",
+        "url": "https://buytickets.at/hearheresociety/1619626",
+        "soldOut": true
+      }
+    },
+    {
+      "id": "cello-recital-2",
+      "title": "Eliana Razzino Yang in Recital",
+      "kind": "Cello recital",
+      "date": "2025-10-09",
+      "time": "16:00",
+      "duration": 120,
+      "venue": "county-museum",
+      "image": "images/artists/eliana-razzino-yang.jpg",
+      "imageFocus": "50% 12%",
+      "description": [
+        "Eliana Razzino Yang performs the music of Bach, Kodaly and Beethoven assisted by pianist Lan Lam Day and violinist Geoffrey Day. The program includes Bach's 5th Suite, the Kodaly Duo for violin and cello, and Beethoven's Sonata in G minor."
+      ],
+      "program": [
+        {
+          "composer": "Johann Sebastian Bach (1685–1750)",
+          "work": "Cello Suite No. 5 in C minor, BWV 1011",
+          "note": "Prelude; Allemande; Courante; Sarabande; Gavotte I & II; Gigue"
+        },
+        {
+          "composer": "Zoltán Kodály (1882–1967)",
+          "work": "Duo, Op. 7 for violin and cello (1914)",
+          "note": "Allegro serioso, non troppo; Adagio; Maestoso e largamente, ma non troppo lento — Presto"
+        },
+        {
+          "composer": "Ludwig van Beethoven (1770–1827)",
+          "work": "Sonata No. 2 in G minor, Op. 5 No. 2",
+          "note": "Adagio sostenuto e espressivo — Allegro molto più tosto presto; Rondo. Allegro"
+        }
+      ],
+      "performers": [
+        "eliana-razzino-yang",
+        "geoffrey-day",
+        "lan-day"
+      ],
+      "tickets": {
+        "price": "$30",
+        "note": "students $10",
+        "url": "https://buytickets.at/hearheresociety/1619626"
+      }
     },
     {
       "id": "night-music",
-      "title": "Night Music in the Dark",
-      "kind": "Concert",
-      "date": "2025-10-09",
-      "time": "19:30",
-      "venue": "mountain-cemetery-chapel",
-      "image": "images/events/night-music.jpg",
-      "imageFocus": "50% 40%",
-      "description": ["A candlelit evening of luminous, unhurried music in the historic chapel. Dress warmly."],
-      "program": [
-        { "composer": "Arvo Pärt", "work": "*Spiegel im Spiegel*" },
-        { "composer": "Festival commission", "work": "New work", "note": "world premiere" }
+      "title": "Night Music: Music in the Dark",
+      "kind": "Concert in the dark",
+      "date": "2025-10-10",
+      "time": "19:00",
+      "duration": 90,
+      "venue": "ritchie-chapel",
+      "image": "images/artists/sophie-shao.jpg",
+      "imageFocus": "45% 40%",
+      "description": [
+        "The music of Bach, Barber, Haydn, Ravel, Arvo Pärt and more performed by the Festival Quartet in near-darkness! Lowered visual stimulation increases aural sensitivity for a truly memorable experience.",
+        "An experience unlike any other festival concert. Imagine entering a beautiful Gothic mortuary chapel. The lights go down. The quartet begins to play. There is almost nothing to see. The music has not been announced beforehand. With visual stimulation deliberately reduced, your ears become more sensitive to every sound, every silence, every breath and every movement of the music."
       ],
-      "performers": ["julien-arsenault", "thomas-leblanc"],
-      "tickets": { "price": "$50" }
+      "program": [
+        {
+          "composer": "Johann Sebastian Bach (1685–1750)",
+          "work": "Cello Suite No. 1 in G major, BWV 1007 — Prelude"
+        },
+        {
+          "composer": "Joseph Haydn (1732–1809)",
+          "work": "String Quartet in G minor, Op. 20 No. 3 — Allegro con spirito"
+        },
+        {
+          "composer": "Arvo Pärt (b. 1935)",
+          "work": "Psalom for string quartet"
+        },
+        {
+          "composer": "Wolfgang Amadeus Mozart (1756–1791)",
+          "work": "\"Eine kleine Nachtmusik\" K. 525 — Romance"
+        },
+        {
+          "composer": "György Kurtág (b. 1926)",
+          "work": "Officium breve in memoriam Andræ Szervánszky, Op. 28 (complete)"
+        },
+        {
+          "composer": "Antonín Dvořák",
+          "work": "String Quartet in F major, Op. 96 \"American\" — Lento"
+        },
+        {
+          "composer": "Samuel Barber (1910–1981)",
+          "work": "Adagio for string quartet"
+        },
+        {
+          "composer": "Maurice Ravel (1875–1937)",
+          "work": "String Quartet — Allegro moderato, très doux"
+        }
+      ],
+      "performers": [
+        "maureen-nelson",
+        "geoffrey-day",
+        "david-yang",
+        "sophie-shao"
+      ],
+      "tickets": {
+        "price": "$50",
+        "note": "students $10, $55 at the door",
+        "url": "https://buytickets.at/hearheresociety/1682499",
+        "soldOut": true
+      }
     },
     {
-      "id": "finale",
-      "title": "Finale",
-      "kind": "Concert",
+      "id": "finale-clare",
+      "title": "Grand Finale in Clare",
+      "kind": "Quartet concert · in French",
       "date": "2025-10-11",
-      "time": "19:30",
-      "venue": "universite-sainte-anne",
-      "image": "images/events/finale.jpg",
-      "description": ["A celebratory program pairing beloved repertoire with a world premiere inspired by Yarmouth's coastal landscape. A reception with the artists follows."],
-      "program": [
-        { "composer": "Fanny Mendelssohn", "work": "String Quartet in E-flat major" },
-        { "composer": "Festival commission", "work": "New work", "note": "world premiere" }
+      "time": "19:00",
+      "duration": 150,
+      "venue": "sainte-anne",
+      "image": "images/artists/maureen-nelson.jpg",
+      "imageFocus": "60% 15%",
+      "description": [
+        "The musicians have been rehearsing all week and are ready to delight the audience at this concert in Clare with a program of works by Josef Haydn, György Kurtág, Maurice Ravel and a world premiere, composed for our inaugural festival by Juno and ECMA award-winning composer Derek Charke.",
+        "Music is a language of its own, but the introductions and description of the pieces will all be done in French for this performance.",
+        "On a tellement hâte de vous voir!"
       ],
-      "performers": ["clara-whitmore", "julien-arsenault", "maren-holt", "elise-arsenault", "thomas-leblanc"],
-      "tickets": { "price": "$30" }
+      "program": [
+        {
+          "composer": "Franz Joseph Haydn (1732–1809)",
+          "work": "Quartet in G minor, Op. 20 No. 3",
+          "note": "Allegro con spirito; Minuetto: Allegretto; Poco Adagio; Finale: Allegro di molto"
+        },
+        {
+          "composer": "György Kurtág (b. 1926)",
+          "work": "Officium breve in memoriam Andræ Szervánszky, Op. 28"
+        },
+        {
+          "composer": "Derek Charke (b. 1974)",
+          "work": "Harvest Dusk (2025)",
+          "note": "World premiere; commissioned for the inaugural festival"
+        },
+        {
+          "composer": "Maurice Ravel (1875–1937)",
+          "work": "String Quartet (1903)",
+          "note": "Allegro moderato — très doux; Assez vif — très rythmé; Très lent; Vif et agité"
+        }
+      ],
+      "performers": [
+        "maureen-nelson",
+        "geoffrey-day",
+        "david-yang",
+        "sophie-shao"
+      ],
+      "tickets": {
+        "price": "$30",
+        "note": "students $10, $35 at the door",
+        "url": "https://buytickets.at/hearheresociety/1619638"
+      }
+    },
+    {
+      "id": "finale-yarmouth",
+      "title": "Grand Finale in Yarmouth",
+      "kind": "Closing concert & reception",
+      "date": "2025-10-12",
+      "time": "15:00",
+      "duration": 150,
+      "venue": "holy-trinity",
+      "image": "images/artists/derek-charke.jpg",
+      "imageFocus": "50% 30%",
+      "description": [
+        "Say farewell to the 2025 festival with this concert at Holy Trinity Church in Yarmouth with a program of works by Josef Haydn, György Kurtág, Maurice Ravel and a world premiere, composed for our inaugural festival by Juno and ECMA award-winning composer Derek Charke.",
+        "Celebrate with the musicians after the concert at the reception held in the parish hall."
+      ],
+      "program": [
+        {
+          "composer": "Franz Joseph Haydn (1732–1809)",
+          "work": "Quartet in G minor, Op. 20 No. 3",
+          "note": "Allegro con spirito; Minuetto: Allegretto; Poco Adagio; Finale: Allegro di molto"
+        },
+        {
+          "composer": "György Kurtág (b. 1926)",
+          "work": "Officium breve in memoriam Andræ Szervánszky, Op. 28"
+        },
+        {
+          "composer": "Derek Charke (b. 1974)",
+          "work": "Harvest Dusk (2025)",
+          "note": "World premiere; commissioned for the inaugural festival"
+        },
+        {
+          "composer": "Maurice Ravel (1875–1937)",
+          "work": "String Quartet (1903)",
+          "note": "Allegro moderato — très doux; Assez vif — très rythmé; Très lent; Vif et agité"
+        }
+      ],
+      "performers": [
+        "maureen-nelson",
+        "geoffrey-day",
+        "david-yang",
+        "sophie-shao"
+      ],
+      "tickets": {
+        "price": "$30",
+        "note": "students $10, $35 at the door",
+        "url": "https://buytickets.at/hearheresociety/1619645"
+      }
     }
   ],
+  "thanks": [
+    "Katie and Zach Churchill",
+    "Cathy McManuis and Michael Drew",
+    "Hiromi Bradshaw",
+    "Mark Palmer",
+    "Belle Hatfield",
+    "Yarmouth Waterfront Gallery",
+    "Third Cup Cafe",
+    "Yarmouth Mall"
+  ],
+  "photoCredit": "Adam Bissonnette",
   "gallery": [
-    { "src": "images/gallery/quartet-dark.jpg", "caption": "Finale, Université Sainte-Anne" },
-    { "src": "images/gallery/candles-a.jpg", "caption": "Night Music in the Dark" },
-    { "src": "images/gallery/hall-a.jpg", "caption": "Open Rehearsal" },
-    { "src": "images/gallery/traps.jpg", "caption": "Cape Forchu" },
-    { "src": "images/gallery/duo.jpg", "caption": "Classical Kitchen Party" },
-    { "src": "images/gallery/candles-d.jpg" },
-    { "src": "images/gallery/lobby-quartet.jpg" },
-    { "src": "images/gallery/blue-house.jpg", "caption": "Hebron" },
-    { "src": "images/gallery/lighthouse-b.jpg", "caption": "Cape Forchu lighthouse" }
+    {
+      "src": "images/gallery/2025-rehearsal.jpg",
+      "caption": "Rehearsal, 2025"
+    }
   ]
 }

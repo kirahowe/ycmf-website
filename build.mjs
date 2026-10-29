@@ -101,7 +101,21 @@ const inline = (s) =>
 
 const plain = (s = '') => String(s).replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/\*/g, '');
 
-const paras = (text) => [].concat(text ?? []).map((p) => `<p>${inline(p)}</p>`).join('\n');
+// Paragraphs; consecutive lines starting with "- " become a bulleted list.
+function paras(text) {
+  const out = [];
+  for (const p of [].concat(text ?? [])) {
+    if (p.startsWith('- ')) {
+      const item = `<li>${inline(p.slice(2))}</li>`;
+      if (out.at(-1)?.startsWith('<ul>')) out[out.length - 1] = out.at(-1).replace('</ul>', `${item}</ul>`);
+      else out.push(`<ul>${item}</ul>`);
+    } else out.push(`<p>${inline(p)}</p>`);
+  }
+  return out.join('\n');
+}
+
+// "Johann Sebastian Bach (1685–1750)" -> "Bach"
+const surname = (composer) => composer.replace(/\s*\(.*\)\s*$/, '').split(' ').at(-1);
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -270,6 +284,12 @@ function performerList(ctx, ev, href) {
   return items.length ? `<ul class="performers">${items.join('')}</ul>` : '';
 }
 
+function calendarTitle(fest) {
+  const a = parseDate(fest.events[0].date).month;
+  const b = parseDate(fest.events.at(-1).date).month;
+  return a === b ? `${a} ${fest.year}` : `${a} – ${b} ${fest.year}`;
+}
+
 // A month-style grid of the festival weeks, Monday first.
 function calendarGrid(ctx, href) {
   const { fest, site } = ctx;
@@ -312,7 +332,7 @@ function eventRow(ctx, ev, href) {
         <p class="row-meta">${time(ev.time)}${ev.kind ? ` <span class="sep">·</span> ${esc(ev.kind)}` : ''}</p>
         <h3><a href="${href(`${ctx.yearBase}schedule/#${ev.id}`)}">${inline(ev.title)}</a></h3>
         <p class="row-venue">${esc(venue.name)}</p>
-        ${ev.program?.length ? `<p class="row-program">${ev.program.map((w) => (w.composer ? esc(w.composer.split(' ').at(-1)) : inline(w.work))).filter((v, i, a) => a.indexOf(v) === i).join(', ')}</p>` : ''}
+        ${ev.program?.length ? `<p class="row-program">${ev.program.map((w) => (w.composer ? esc(surname(w.composer)) : inline(w.work))).filter((v, i, a) => a.indexOf(v) === i).join(', ')}</p>` : ''}
       </div>
       ${ticketBlock(ev, ctx.fest, href, { compact: true })}
     </article>`;
@@ -407,6 +427,8 @@ ${body}
   <div class="wrap footer-grid">
     <div>
       <p class="footer-name">${esc(site.name)}</p>
+      ${site.nameFr ? `<p class="footer-fr">${esc(site.nameFr)}</p>` : ''}
+      ${site.presenter ? `<p>Presented by ${site.presenter.url ? `<a href="${esc(site.presenter.url)}">${esc(site.presenter.name)}</a>` : esc(site.presenter.name)}</p>` : ''}
       <p>${esc(site.location)}</p>
       ${site.acknowledgement ? `<p class="footer-ack">${inline(site.acknowledgement)}</p>` : ''}
     </div>
@@ -493,7 +515,7 @@ ${fest.intro && !over ? `<section class="band band-plain">
 
 ${fest.events.length ? `<section class="band band-tint" id="calendar">
   <div class="wrap">
-    ${sectionHead(`${parseDate(fest.events[0].date).month} ${fest.year}`, over ? '' : `<a href="${href(`${ctx.yearBase}festival-${fest.year}.ics`)}">Add every event to your calendar&nbsp;→</a>`)}
+    ${sectionHead(calendarTitle(fest), over ? '' : `<a href="${href(`${ctx.yearBase}festival-${fest.year}.ics`)}">Add every event to your calendar&nbsp;→</a>`)}
     ${calendarGrid(ctx, href)}
   </div>
 </section>
@@ -589,6 +611,7 @@ function schedulePage(ctx) {
 ${pageHead(`${fest.year} <span class="sep">·</span> ${esc(dateRange(fest, { withYear: false }))}`, 'Schedule', paras(fest.scheduleNote))}
 ${fest.events.length ? `<section class="band band-tint"><div class="wrap">${calendarGrid(ctx, href)}${fest.over ? '' : `<p class="cal-ics"><a href="${href(`${ctx.yearBase}festival-${fest.year}.ics`)}">Add every event to your calendar&nbsp;→</a></p>`}</div></section>` : ''}
 <div class="wrap schedule">${dayBlocks || '<p class="lead">The schedule will be announced soon.</p>'}</div>
+${fest.thanks?.length ? `<section class="band band-tint"><div class="wrap split"><h2 class="label">With thanks to</h2><ul class="plain thanks">${fest.thanks.map((t) => `<li>${inline(t)}</li>`).join('')}</ul></div></section>` : ''}
 `;
   return layout(ctx, { title: `Schedule ${fest.year}`, section: 'schedule', body });
 }

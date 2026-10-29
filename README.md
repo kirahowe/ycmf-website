@@ -58,8 +58,9 @@ Suggested sizes: headshots at least 800px wide (shown at 4:5, in black and
 white until hovered); event and gallery photos about 1600px on the long
 side, saved as JPEG at roughly 80% quality.
 
-The current images are openly licensed stand-ins. See
-`static/images/PLACEHOLDER-CREDITS.md`, and replace them all before launch.
+Credit photographers with `"photoCredit"`: on an artist (shown under the
+headshot), on a festival year (shown under its gallery), or `"credit"` on a
+single gallery photo.
 
 ## Editing content
 

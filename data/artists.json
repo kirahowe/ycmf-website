@@ -1,66 +1,104 @@
 {
-  "clara-whitmore": {
-    "name": "Clara Whitmore",
-    "instrument": "violin",
-    "photo": "images/artists/clara-whitmore.jpg",
-    "photoFocus": "38% 40%",
-    "website": null,
+  "david-yang": {
+    "name": "David Yang",
+    "instrument": "viola · artistic director",
+    "photo": "images/artists/david-yang.jpg",
+    "photoFocus": "45% 20%",
     "bio": [
-      "Placeholder biography. Clara Whitmore has appeared as soloist and chamber musician across North America and Europe, and is a founding member of a string quartet known for its performances of *Haydn* and of living composers.",
-      "She teaches privately and at summer programs, and plays a violin made in Cremona in 1780."
+      "Recipient of an artist fellowship from the Independence Foundation awarded to a small number of exceptional artists, violist David Yang has been described as “lithe and expressive” in the Strad Magazine and called “a conduit for music;” the renaissance man has forged a career that is a blend of performing, composition, and storytelling, and been heard in collaboration with members of the Borromeo, Brentano, Miro, Pro Arte, Tokyo, and Vermeer String Quartets. He has premiered dozens of works and is Artistic Director of the Newburyport Chamber Music Festival, the Ashburton Chamber Music Festival, and was founder and Director of Chamber Music at the University of Pennsylvania for 20 years. A member of string trio Ensemble Epomeo based in the U.K., their recordings have been designated “critic’s choice” in Gramophone Magazine and their second CD of the music of Schnittke, Penderecki, and Kurtag described in the Strad as “...remarkable intensity and elegant assurance throughout…there are finely balanced chords moving from glowing diatonicism to harsh dissonance, and carefully shaped melodies with beautifully expressive vibrato -- yet they never lose sight of the work’s broader architecture, nor of its poignant, increasingly bleak mood.” He plays on the “ex-Joachim” Johannes Tielke viola from 1670."
     ]
   },
-  "hana-sato": {
-    "name": "Hana Sato",
+  "geoffrey-day": {
+    "name": "Geoffrey Day",
     "instrument": "violin",
-    "photo": "images/artists/hana-sato.jpg",
-    "photoFocus": "50% 25%",
+    "photo": "images/artists/geoffrey-day.jpg",
+    "photoFocus": "50% 20%",
     "bio": [
-      "Placeholder biography. Hana Sato is a violinist and chamber musician who divides her time between performing, teaching and commissioning new work for strings."
+      "Violinist Geoffrey Day received his Bachelor of Music from the University of Michigan, where he studied with Ruggiero Ricci, and earned a Master of Music from Michigan State University as a student of I-Fu Wang. While in Michigan, he served as Concertmaster of the Michigan State University, Battle Creek, and Midland Symphonies, Assistant Concertmaster of the Kalamazoo Symphony, and Principal Second Violin of the Greater Lansing Symphony. Also in Michigan he performed in the Renaud Chamber Orchestra and Chamber Musicians, and the Fontana Ensemble. In 1994 Mr. Day moved to Florida to join the Naples Philharmonic, where he performed for twenty-six years. He was a founding member of the Neapolitan Quartet, the Botticelli Quartet, the Aurore Piano Trio, and the Neapolitan Baroque Orchestra. After summering in Nova Scotia for more than twenty years, he relocated to Port Maitland to live year-round with his wife pianist Lan their son William."
     ]
   },
-  "julien-arsenault": {
-    "name": "Julien Arsenault",
+  "maureen-nelson": {
+    "name": "Maureen Nelson",
     "instrument": "violin",
-    "photo": null,
+    "photo": "images/artists/maureen-nelson.jpg",
+    "photoFocus": "60% 15%",
+    "photoCredit": "Julie Soefer",
     "bio": [
-      "Placeholder biography. Born in Acadian Nova Scotia, Julien Arsenault returns home each autumn from a career that has taken him to concert halls on three continents."
+      "As former founding member and first violinist, violinist Maureen Nelson, led the Grammy-nominated Enso String Quartet, concertizing throughout North America and abroad. Founded at Yale University, the quartet has been described by Strad magazine as “thrilling” and praised by the Washington Post for its “glorious sonorities...half honey, half molten lava.” The quartet quickly went on to win top prizes at the Concert Artists Guild competition and Banff International Quartet Competition. Classical Voice praised the ensemble as “one of the eminent string quartets of our era.” A native of Pennsylvania, Maureen attending the Curtis Institute of Music and appeared as soloist with the Philadelphia Orchestra when she was 16. While studying in Germany, she was concertmaster of the Detmolder Kammerochester and became a full-time member of The Saint Paul Chamber Orchestra in 2016. During summers, Maureen spends her time away from SPCO visiting family, performing at chamber festivals and is a member of Lincoln Center’s Mostly Mozart Festival Orchestra. She is married to percussionist Matthew McClung and together they enjoy a daily coffee & crosswords ritual."
     ]
   },
-  "maren-holt": {
-    "name": "Maren Holt",
-    "instrument": "viola",
-    "photo": "images/artists/maren-holt.jpg",
+  "solenne-paidassi": {
+    "name": "Solenne Païdassi",
+    "instrument": "violin",
+    "photo": "images/artists/solenne-paidassi.jpg",
+    "photoFocus": "40% 15%",
+    "bio": [
+      "French violinist Solenne Païdassi is First Prize winner of the 2010 Long-Thibaud Competition. She has been awarded many prizes in France and abroad, including the Hannover Competition, Sion-Valais Competition, and Gyeongnam Competition in Korea. She plays a Gian Battista Guadagnini violin of 1784, awarded by the Zilber- Vatelot Foundation in Paris. She has performed in Tonhalle (Zürich), Carnegie Hall, Concertgebouw (Amsterdam), as well as participated in numerous festivals such as the International Festival of Colmar, the Festival of Radio-France in Montpellier, “La Folle Journée”, the Festival International de Sion Valais, and Menton International Music Festival. As a soloist she has performed with the Orchestre de Radio-France, the Sinfonia Varsovia Orchestra, the Orchestre National de Lille, the Shangaï Grand Theatre Orchestra, and the Verdi Orchestra. After graduating from Geneva Conservatoire de Musique, the Royal Academy of London, and the Curtis Institute of Music in Philadelphia, she obtained a Diploma from the Hannover Hochschule für Musik."
+    ]
+  },
+  "sophie-shao": {
+    "name": "Sophie Shao",
+    "instrument": "cello",
+    "photo": "images/artists/sophie-shao.jpg",
     "photoFocus": "45% 40%",
     "bio": [
-      "Placeholder biography. Maren Holt is a violist and chamber musician whose work moves between the standard repertoire, new commissions and historical performance."
+      "Cellist Sophie Shao, winner of the prestigious Avery Fisher Career Grant and top prizes at the Rostropovich and Tchaikovsky competitions, has been described by the New York Times as “eloquent, powerful,” the LA Times as “impressive,” and the Washington Post as “deeply satisfying.” Shao has appeared as soloist throughout the United States, Europe and Asia, with the American Symphony Orchestra, BBC Concert Orchestra, Houston Symphony, National Symphony Orchestra of Taiwan, National Symphony Orchestra of Ukraine, and Pacific Symphony. She has performed in festivals such as Chamber Music Northwest, Vail, Santa Fe, Marlboro, and Ravinia and is a member of the Lincoln Center Chamber Music Society Two and is on faculty at the University of Connecticut. She has previously been on the faculty of Vassar College, Princeton University, and Bard Conservatory. A native of Houston, Texas, at age thirteen she enrolled at the Curtis Institute in Philadelphia, then continued her studies at Yale University, also receiving a B.A. in Religious Studies from Yale College. She plays on an Honore Derazey cello ca. 1855, formerly owned by Pablo Casals."
     ]
   },
-  "elise-arsenault": {
-    "name": "Élise Arsenault",
+  "gregory-beaver": {
+    "name": "Gregory Beaver",
     "instrument": "cello",
-    "photo": "images/artists/elise-arsenault.jpg",
-    "photoFocus": "52% 40%",
+    "photo": "images/artists/gregory-beaver.jpg",
+    "photoFocus": "40% 30%",
     "bio": [
-      "Placeholder biography. Élise Arsenault is principal cellist of a regional orchestra and a frequent guest at chamber music festivals."
+      "Cellist of the Chiara String Quartet for 18 years, Gregory Beaver performed over 500 concerts in concert halls on 3 continents, garnered a Grammy nomination, premiered 40 works, and recorded 7 major albums. In 2016, the quartet presented all 6 of Béla Bartók’s string quartets memorized in a 2 day period at the Ravinia Festival and regularly performed concerts with the quartet by heart. Gregory has composed several works for solo cello, duo, choir, and other ensembles. Since 2018 Gregory has led a double life as a musician and software engineer. He is currently Chief Architect at Vapi, a Voice AI company, where he exercises creativity in coding and leads engineering innovation. He lives with his 2 daughters in Oakland, California. Gregory plays on a fine Roman cello made in 1725 by David Tecchler."
     ]
   },
-  "thomas-leblanc": {
-    "name": "Thomas LeBlanc",
-    "instrument": "piano",
-    "photo": "images/artists/thomas-leblanc.jpg",
-    "photoFocus": "50% 30%",
+  "eliana-razzino-yang": {
+    "name": "Eliana Razzino Yang",
+    "instrument": "cello",
+    "photo": "images/artists/eliana-razzino-yang.jpg",
+    "photoFocus": "50% 12%",
     "bio": [
-      "Placeholder biography. Thomas LeBlanc is a pianist with a particular love for the song and chamber repertoire, and has recorded the complete piano trios of Fanny Mendelssohn."
+      "A native of Philadelphia, cellist Eliana Razzino Yang has performed solo recitals in London, Paris, Rome, Naples, Brussels, Cologne, Nijmegan, Cremona, New York, Helsinki, Boston, and Philadelphia and concertos with orchestras in Italy, across the US, and England. Eliana has collaborated with members of the Emerson, Tokyo, Borromeo, Vermeer, Audubon, Aizuri, and Momenta string quartets, Ensemble Epomeo, Chamber Music Society of Lincoln Center, and the International Contemporary Ensemble (ICE). Recital partners include pianists Ieva Jokubaviciute, Amy Yang, and Clare Hammond. In 2015 she traveled to Budapest, Hungary, to play for composer György Kurtág and cellist Miklós Perényi and in 2016 she played for composer George Crumb. Festivals include IMS Prussia Cove, Yale’s Norfolk Music Festival, Kneisel Hall, Perlman Music Program, Sarasota Festival, Heifetz Institute, Carnegie Hall’s New York String Orchestra Seminar, and Taos School of Music. Eliana plays on a Gustave Adolphe Bernadel cello from 1892 (Paris). Eliana received her Bachelor’s degree and Master's degrees from Juilliard."
     ]
   },
-  "owen-macleod": {
-    "name": "Owen MacLeod",
-    "instrument": "clarinet",
-    "photo": "images/artists/owen-macleod.jpg",
-    "photoFocus": "50% 30%",
+  "noemie-raymond": {
+    "name": "Noémie Raymond",
+    "instrument": "cello",
+    "photo": "images/artists/noemie-raymond.jpg",
+    "photoFocus": "45% 15%",
     "bio": [
-      "Placeholder biography. Owen MacLeod is a clarinetist and arranger whose arrangements of traditional Maritime tunes are a festival favourite."
+      "Acclaimed French-Canadian cellist Noémie Raymond is an artist destined to “leave her mark on posterity through her immense sensitivity and immeasurable talent” (Journal des Citoyens). Her career has taken her from London’s Royal Albert Hall to New York’s Carnegie Hall and Berlin’s Philharmonie, as well as concerts in Japan, Cambodia, Chile and elsewhere. Noémie has collaborated with renowned virtuosos such as Midori, Pinchas Zukerman, Jan Lisiecki, Yekwon Sunwoo and Timothy Chooi. As a soloist, Noémie has performed with orchestras such as the National Arts Centre, Oakville Symphony, Skagit Symphony, l’Orchestre symphonique de Sherbrooke, and the Carlos Costas Chamber Orchestra. Recognized as one of CBC’s Hot Canadian Classical Musicians under 30, Noémie has taken prizes at the Tremplin International, the Edwin H. and Leigh W. Schadt String International Competition, the Prix d’Europe and the WAMSO Young Artist Competition, and was nominated for the 2026 Opus Awards: Breakthrough Artist of the Year."
+    ]
+  },
+  "lan-day": {
+    "name": "Lan Day",
+    "instrument": "piano · conductor",
+    "photo": "images/artists/lan-day.jpg",
+    "photoFocus": "50% 25%",
+    "bio": [
+      "Lan Day began piano lessons in Weymouth, Nova Scotia after arriving as a refugee from Vietnam. She earned a Bachelor of Music degree from Acadia University, a Master of Music degree in Performance and Literature from the University of Western Ontario, and was a national finalist in the Canadian Music Competition. After moving to Florida in 1998, Lan served as Music Director of St. Paul’s Episcopal Church, leading the choir and members of the Naples Philharmonic in Faure’s Requiem and Schubert’s Mass in G. Her most recent Music Director position was at the Unitarian Universalist Congregation of Greater Naples. Lan was an adjunct professor at Ave Maria University for nine years, teaching piano, chamber music, piano pedagogy, theory and musicianship. Since returning to Canada, Lan has been an active member of the music culture in Yarmouth. She is the director of the Aurora Singers, a madrigal group, which she co-founded with Leslie Robinson in February, 2025."
+    ]
+  },
+  "derek-charke": {
+    "name": "Derek Charke",
+    "instrument": "composer in residence, 2025",
+    "photo": "images/artists/derek-charke.jpg",
+    "photoFocus": "50% 30%",
+    "photoCredit": "Perry Jackson",
+    "bio": [
+      "Composer-in-Residence Derek Charke is a JUNO and four-time ECMA award-winning composer, flutist and educator. His music is eclectic, often defying categorization due to wide-ranging influences. Derek is a professor of music at Acadia University in Wolfville, Nova Scotia, where he teaches composition and music theory. He also heads the Acadia Electroacoustic Music Studio. His catalogue of ranges from solo pieces to concertos. Derek’s composition teachers included David Felder, Louis Andriessen, Steve Martland, Paul Patterson, Cindy McTee, and Martin Mailman. He attended the University of North Texas, the Royal Academy of Music in London, England, the Koninklijk Conservatorium in the Hague, Netherlands, and the State University of New York at Buffalo where he received a Ph.D. in composition. Derek also earned a master’s degree in flute performance from SUNY Buffalo where he studied with the late Cheryl Gobbetti Hoffman. During his undergraduate degree he studied trumpet with Dr. Leonard Candelaria, while also pursuing the flute. Derek was born in Fredericton, New Brunswick in 1974, and is of British, Irish, Scottish, and Welsh heritage."
+    ]
+  },
+  "gary-ewer": {
+    "name": "Gary Ewer",
+    "instrument": "composer in residence, 2026",
+    "photo": "images/artists/gary-ewer.jpg",
+    "photoFocus": "50% 20%",
+    "bio": [
+      "Gary Ewer is a Nova Scotian composer, arranger, conductor and educator whose work has focused primarily on choral music. A graduate of Dalhousie University, he pursued graduate studies in composition at McGill University with Alcides Lanza and John Rea. His choral and instrumental compositions and arrangements have been performed by ensembles including the Elmer Iseler Singers, Symphony Nova Scotia, Halifax Camerata Singers, and the Cape Breton Chorale, and are published by Cypress Choral Music and his own company, Pantomime Music Publications.",
+      "In addition to his work as a composer, Gary Ewer has enjoyed a career as a conductor and music educator. He is Director of Dalhousie Collegium Cantorum, has conducted Symphony Nova Scotia’s Link Up education concerts for many years, and previously served as a Senior Instructor of Music at Dalhousie University. His music reflects a lifelong belief in the power of choral singing to build community and bring people together."
     ]
   }
 }

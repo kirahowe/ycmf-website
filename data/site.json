@@ -1,102 +1,143 @@
 {
   "name": "Yarmouth Chamber Music Festival",
+  "nameFr": "Festival de Musique de Chambre de Yarmouth",
   "location": "Yarmouth, Nova Scotia",
   "timezone": "America/Halifax",
-  "tagline": "Chamber music, close up, on Nova Scotia's southern shore.",
-  "description": "An autumn festival of chamber music in kitchens, chapels and concert halls across Yarmouth, Nova Scotia.",
-  "email": "info@example.com",
-  "mailingAddress": [
-    "Yarmouth Chamber Music Festival",
-    "PO Box 000",
-    "Yarmouth, NS  B5A 0A0"
-  ],
-  "newsletterUrl": "#",
+  "tagline": "Intimate venues, eminent musicians.",
+  "description": "A festival of chamber music each autumn in kitchens, chapels, museums and churches across Yarmouth, Pubnico and Clare, Nova Scotia. Presented by the Hear! Here! Society.",
+  "presenter": {
+    "name": "the Hear! Here! Society",
+    "url": "https://hearheresociety.ca"
+  },
+  "email": "info@hearheresociety.ca",
+  "newsletterUrl": "https://hearheresociety.ca/contact/",
   "charityNumber": null,
   "basePath": "/",
   "social": [
     {
-      "label": "Instagram",
-      "url": "#"
-    },
-    {
       "label": "Facebook",
-      "url": "#"
+      "url": "https://www.facebook.com/profile.php?id=61558569944376"
     }
   ],
-  "acknowledgement": "The festival takes place in Mi'kma'ki, the ancestral and unceded territory of the Mi'kmaq People.",
+  "photoCredit": null,
   "about": [
-    "Placeholder. The Yarmouth Chamber Music Festival brings musicians of international standing to Yarmouth each autumn for a week and a half of concerts in the places where people actually gather: kitchens, chapels, halls and churches.",
-    "Placeholder. The music is played close enough to see the bows move. Programs pair the great works of the repertoire with new music, and the artists stay on afterward to talk."
+    "The goal is not simply to bring great music to Yarmouth. The goal is to build something that lasts. A community where professional musicians want to come, where audiences can encounter chamber music in intimate and unexpected settings, where young musicians can learn from extraordinary artists, and where Yarmouth can become a destination for chamber music in Atlantic Canada.",
+    "We believe that great music shouldn’t be confined to big cities or concert halls. It should be something everyone can experience, regardless of age, background, or income.",
+    "That’s why this festival isn’t just about concerts. It’s about free performances in schools and long-term care homes, bilingual programming that reflects our Acadian heritage, and open rehearsals held in public spaces where people can experience the creative process up close. It’s about artists meeting audiences. Not from a distance, but in shared spaces, as neighbours.",
+    "For ten days each autumn, exceptional musicians become part of the fabric of our community. There are opportunities to encounter them at rehearsals, conversations, discussions and performances — sometimes planned, sometimes spontaneous."
   ],
   "team": [
     {
-      "name": "Placeholder Name",
-      "role": "Founder & Artistic Director",
+      "name": "David Yang",
+      "role": "Artistic Director",
       "bio": [
-        "Placeholder biography of the artistic director."
+        "David Yang is an internationally respected violist, chamber musician and artistic director whose collaborations include members of the Borromeo, Brentano, Miró, Tokyo and Vermeer quartets. For 20 years he served as Director of Chamber Music at the University of Pennsylvania. He is also Artistic Director of the Newburyport and Ashburton Chamber Music Festivals and has commissioned dozens of new works."
       ]
     },
     {
-      "name": "Placeholder Name",
-      "role": "Festival Manager"
-    },
-    {
-      "name": "Placeholder Name",
-      "role": "Board Chair"
+      "name": "Geoffrey Day",
+      "role": "President, Hear! Here! Society"
     }
   ],
   "support": {
-    "headline": "Every concert is made possible by people who believe there should be music like this in Yarmouth.",
+    "headline": "Great music belongs here, not only in big cities, and it’s best shared as neighbours.",
     "text": [
-      "Placeholder. Ticket sales cover only part of what it costs to bring artists to Yarmouth. Gifts of any size go directly to artist fees, travel and the venues that host us.",
-      "We are also grateful to the volunteers who usher, drive, cook and billet. If you would like to help, we would love to hear from you."
+      "Every ticket, donation and word of encouragement helps turn a good idea into a lasting tradition.",
+      "To support our ongoing efforts to bring more programming like this to Yarmouth and surrounding areas, you can reach out to one of the festival organizers about volunteering or contribute financially. The Hear! Here! Society is a registered non-profit, but we cannot issue charitable tax receipts."
     ],
-    "donateUrl": "#",
-    "volunteerUrl": "mailto:info@example.com?subject=Volunteering",
+    "donateUrl": "mailto:info@hearheresociety.ca?subject=Supporting%20the%20festival",
+    "volunteerUrl": "mailto:info@hearheresociety.ca?subject=Volunteering",
     "sponsors": [
       {
-        "name": "Placeholder Sponsor",
-        "url": "#"
-      },
-      {
-        "name": "Placeholder Foundation"
+        "name": "Nova Scotia Department of Communities, Culture, Tourism and Heritage"
       }
-    ],
-    "image": "images/site/lighthouse-rocks.jpg"
+    ]
   },
   "venues": {
-    "hebron-house": {
+    "kitchen-hebron": {
       "name": "A private home in Hebron",
-      "address": "Hebron, Nova Scotia (address sent to ticket holders)",
+      "short": "Hebron",
+      "address": "Address sent to ticket holders",
       "mapUrl": null,
-      "description": [
-        "Placeholder. A kitchen party in the old sense: an evening of music in a family home, with food and conversation."
-      ],
-      "image": "images/venues/hebron-house.jpg",
-      "short": "Hebron"
+      "hidden": true
     },
-    "mountain-cemetery-chapel": {
-      "name": "Chapel, Yarmouth Mountain Cemetery",
-      "address": "Yarmouth, Nova Scotia",
-      "description": [
-        "Placeholder description of the chapel."
-      ],
-      "image": "images/venues/mountain-cemetery-chapel.jpg",
-      "short": "Mountain Cemetery"
+    "kitchen-dayton": {
+      "name": "A private home in Dayton",
+      "short": "Dayton",
+      "address": "Address sent to ticket holders",
+      "mapUrl": null,
+      "hidden": true
     },
-    "universite-sainte-anne": {
-      "name": "Chapelle, Université Sainte-Anne",
-      "address": "Church Point, Nova Scotia",
-      "description": [
-        "Placeholder description of the chapel at Université Sainte-Anne."
-      ],
-      "image": "images/venues/universite-sainte-anne.jpg",
-      "short": "Sainte-Anne"
+    "kitchen-argyle": {
+      "name": "A farm in Argyle",
+      "short": "Argyle",
+      "address": "About 25 minutes from Yarmouth; address sent to ticket holders",
+      "mapUrl": null,
+      "hidden": true
     },
-    "tba": {
-      "name": "Venue to be announced",
-      "hidden": true,
-      "short": "Venue TBA"
+    "county-museum": {
+      "name": "Yarmouth County Museum and Archives",
+      "short": "County Museum",
+      "address": "22 Collins Street, Yarmouth",
+      "description": [
+        "Home of the festival’s cello recitals."
+      ]
+    },
+    "ritchie-chapel": {
+      "name": "Ritchie Memorial Chapel, Yarmouth Mountain Cemetery",
+      "short": "Ritchie Chapel",
+      "address": "110 Parade Street, Yarmouth",
+      "description": [
+        "A Gothic mortuary chapel, and the home of Night Music in the Dark."
+      ]
+    },
+    "holy-trinity": {
+      "name": "Holy Trinity Church",
+      "short": "Holy Trinity",
+      "address": "61 William Street, Yarmouth",
+      "description": [
+        "The Grand Finale in Yarmouth, with a reception afterward in the parish hall."
+      ]
+    },
+    "sainte-anne": {
+      "name": "Chapelle de l’Université Sainte-Anne",
+      "short": "Sainte-Anne",
+      "address": "1695 Route 1, Pointe-de-l’Église (Church Point)",
+      "description": [
+        "The finale in Clare, introduced in French."
+      ]
+    },
+    "pubnico": {
+      "name": "Musée des Acadiens des Pubnicos",
+      "short": "Pubnico",
+      "address": "898 Route 335, West Pubnico",
+      "description": [
+        "Musée des Acadiens des Pubnicos & Centre de recherche Père Clarence d’Entremont. The finale in Pubnico, introduced in French and English."
+      ]
+    },
+    "waterfront-gallery": {
+      "name": "Yarmouth Waterfront Gallery",
+      "short": "Waterfront Gallery",
+      "address": "338 Main Street, Yarmouth",
+      "description": [
+        "Free panel discussions with the festival musicians."
+      ]
+    },
+    "yarmouth-mall": {
+      "name": "Yarmouth Mall",
+      "short": "Yarmouth Mall",
+      "address": "76 Starrs Road, Yarmouth",
+      "description": [
+        "Free drop-in open rehearsals."
+      ]
+    },
+    "third-cup": {
+      "name": "Third Cup Café",
+      "short": "Third Cup",
+      "address": "10 John Street, Yarmouth",
+      "description": [
+        "Free drop-in open rehearsals."
+      ]
     }
   }
 }
