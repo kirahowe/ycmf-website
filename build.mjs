@@ -321,9 +321,14 @@ function eventRow(ctx, ev, href) {
 function gallery(href, photos, { limit } = {}) {
   const list = limit ? photos.slice(0, limit) : photos;
   return `<div class="gallery">${list
-    .map((p) => `<figure>${img(href, p.src, { alt: p.alt ?? p.caption ?? '', focus: p.focus })}${p.caption ? `<figcaption>${inline(p.caption)}</figcaption>` : ''}</figure>`)
+    .map((p) => {
+      const caption = [p.caption && inline(p.caption), p.credit && `Photo: ${esc(p.credit)}`].filter(Boolean).join(' · ');
+      return `<figure>${img(href, p.src, { alt: p.alt ?? p.caption ?? '', focus: p.focus })}${caption ? `<figcaption>${caption}</figcaption>` : ''}</figure>`;
+    })
     .join('')}</div>`;
 }
+
+const photoCredit = (fest) => (fest.photoCredit ? `<p class="photo-credit">Photographs by ${inline(fest.photoCredit)}</p>` : '');
 
 // ---------------------------------------------------------------------------
 // Layout
@@ -418,7 +423,7 @@ ${body}
     </div>
   </div>
   <div class="wrap footer-base">
-    <p>© ${new Date().getFullYear()} ${esc(site.name)}${site.charityNumber ? ` · Registered charity ${esc(site.charityNumber)}` : ''}</p>
+    <p>© ${new Date().getFullYear()} ${esc(site.name)}${site.charityNumber ? ` · Registered charity ${esc(site.charityNumber)}` : ''}${site.photoCredit ? ` · ${inline(site.photoCredit)}` : ''}</p>
   </div>
 </footer>
 </body>
@@ -514,6 +519,7 @@ ${photoYear ? `<section class="band band-plain">
     ${sectionHead(photoYear === fest ? `${fest.year} in pictures` : `From the ${photoYear.year} festival`, `<a href="${href(`${photoBase}photos/`)}">All photographs&nbsp;→</a>`)}
   </div>
   <div class="wrap-wide">${gallery(href, photoYear.gallery, { limit: 9 })}</div>
+  <div class="wrap">${photoCredit(photoYear)}</div>
 </section>` : ''}
 
 ${site.support ? `<section class="band band-dark support">
@@ -602,7 +608,10 @@ function artistsPage(ctx) {
         : '';
       return `
   <article class="artist" id="${esc(id)}">
-    <div class="portrait">${portrait(href, a)}</div>
+    <div class="artist-photo">
+      <div class="portrait">${portrait(href, a)}</div>
+      ${a.photo && a.photoCredit ? `<p class="photo-credit">Photo: ${esc(a.photoCredit)}</p>` : ''}
+    </div>
     <div class="artist-bio">
       <h2>${esc(a.name)}</h2>
       <p class="instrument">${esc(a.instrument)}</p>
@@ -629,7 +638,7 @@ function photosPage(ctx) {
     ${others.length ? `<p>${others.map((f) => `<a href="${href(`${f === ctx.latest ? '' : `${f.year}/`}photos/`)}">Photographs from ${f.year}&nbsp;→</a>`).join('<br>')}</p>` : ''}</div>`;
   const body = `
 ${pageHead(`${fest.year} Festival`, 'Photographs')}
-<section class="band band-plain">${fest.gallery.length ? `<div class="wrap-wide">${gallery(href, fest.gallery)}</div>` : empty}</section>
+<section class="band band-plain">${fest.gallery.length ? `<div class="wrap-wide">${gallery(href, fest.gallery)}</div><div class="wrap">${photoCredit(fest)}</div>` : empty}</section>
 `;
   return layout(ctx, { title: `Photographs ${fest.year}`, section: 'photos', body });
 }

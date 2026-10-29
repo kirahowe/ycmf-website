@@ -381,6 +381,11 @@ figure { margin: 0; }
   font-size: 0.85rem;
 }
 
+/* Photo credits ------------------------------------------------------- */
+
+.photo-credit { margin: 0.75rem 0 0; font-size: 0.85rem; font-style: italic; color: var(--muted); }
+.wrap > .photo-credit { text-align: right; }
+
 /* Support band -------------------------------------------------------- */
 
 .support { position: relative; overflow: hidden; text-align: center; padding: clamp(5rem, 12vw, 8.5rem) 0; }
@@ -459,7 +464,8 @@ figure { margin: 0; }
   scroll-margin-top: 1rem;
 }
 .artist:last-child { border-bottom: 0; }
-.artist .portrait { margin: 0; align-self: start; }
+.artist-photo { align-self: start; }
+.artist .portrait { margin: 0; }
 .artist .portrait img { filter: none; }
 .artist h2 { font-size: clamp(2rem, 1.6rem + 1.2vw, 2.6rem); }
 .artist .instrument { margin: 0.2rem 0 1.25rem; }
@@ -505,7 +511,7 @@ figure { margin: 0; }
   .day-date { position: static; flex-direction: row; align-items: baseline; gap: 0.6rem; }
   .day-num { font-size: 2.5rem; }
   .footer-grid { grid-template-columns: minmax(0, 1fr); }
-  .artist .portrait { max-width: 18rem; }
+  .artist-photo { max-width: 18rem; }
 
   /* The calendar becomes a list of festival days */
   .calendar { grid-template-columns: minmax(0, 1fr); }
