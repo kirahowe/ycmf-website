@@ -139,14 +139,41 @@ event refers to an artist, venue or image that doesn't exist.
 
 ## Deploying
 
-Pushing to `main` builds the site and publishes it with GitHub Pages
-(`.github/workflows/deploy.yml`). It also rebuilds every morning, as
-described under Years. In the repository settings, under
-Pages → Source, choose "GitHub Actions".
+The site is hosted free on GitHub Pages at
+https://yarmouthchambermusicfestival.ca. Pushing to `main` builds and
+publishes it (`.github/workflows/deploy.yml`), and it also rebuilds every
+morning, as described under Years.
 
-The output in `dist/` is ordinary static files, so any host works. On Netlify
-or Cloudflare Pages, set the build command to `node build.mjs` and the output
-directory to `dist`, and schedule a daily rebuild with a build hook. All links are relative, so the site works at a domain
-root or under a sub-path such as `username.github.io/ycmf-website/`. If it is
-served from a sub-path, set `"basePath"` in `site.json` (for example
-`"/ycmf-website/"`) so the 404 page links correctly.
+One-time setup:
+
+1. In this repository on GitHub: Settings → Pages → Build and deployment →
+   Source: **GitHub Actions**.
+2. At the domain registrar, set these DNS records for
+   `yarmouthchambermusicfestival.ca` (remove any other A/AAAA records on the
+   bare domain, such as a parking page):
+
+   | Type  | Name | Value                  |
+   |-------|------|------------------------|
+   | A     | @    | 185.199.108.153        |
+   | A     | @    | 185.199.109.153        |
+   | A     | @    | 185.199.110.153        |
+   | A     | @    | 185.199.111.153        |
+   | AAAA  | @    | 2606:50c0:8000::153    |
+   | AAAA  | @    | 2606:50c0:8001::153    |
+   | AAAA  | @    | 2606:50c0:8002::153    |
+   | AAAA  | @    | 2606:50c0:8003::153    |
+   | CNAME | www  | kirahowe.github.io     |
+
+3. Back in Settings → Pages → Custom domain, enter
+   `yarmouthchambermusicfestival.ca` and save. Once the DNS check passes
+   (minutes to a few hours), tick **Enforce HTTPS**.
+4. Recommended: verify the domain under your GitHub account's
+   Settings → Pages, so no one else can claim it for their own Pages site.
+
+`"url"` in `site.json` is used for share previews and canonical links; change
+it if the site moves.
+
+The output in `dist/` is ordinary static files, so any static host works. On
+Netlify or Cloudflare Pages, set the build command to `node build.mjs` and the
+output directory to `dist`, and schedule a daily rebuild with a build hook.
+All links are relative; only the 404 page uses `"basePath"` in `site.json`.

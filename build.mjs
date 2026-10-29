@@ -353,6 +353,21 @@ const photoCredit = (fest) => (fest.photoCredit ? `<p class="photo-credit">Photo
 // ---------------------------------------------------------------------------
 // Layout
 
+// Canonical URL and share image, when site.url is set. Pages for the latest
+// year exist twice (/ and /2026/); both point search engines at the root copy.
+function meta(ctx) {
+  const { site, fest, latest, dir } = ctx;
+  if (!site.url) return '';
+  const base = site.url.replace(/\/$/, '');
+  const path = fest === latest ? dir.replace(new RegExp(`^${latest.year}/`), '') : dir;
+  const image = fest.heroImages?.[0]?.src;
+  return [
+    `<link rel="canonical" href="${esc(`${base}/${path}`)}">`,
+    `<meta property="og:url" content="${esc(`${base}/${path}`)}">`,
+    image ? `<meta property="og:image" content="${esc(`${base}/${image}`)}">` : '',
+  ].filter(Boolean).join('\n');
+}
+
 function layout(ctx, { title, section, body, description }) {
   const { site, festivals, latest, fest, dir, yearBase } = ctx;
   const href = linker(dir);
@@ -393,6 +408,7 @@ function layout(ctx, { title, section, body, description }) {
 <meta property="og:title" content="${esc(pageTitle)}">
 <meta property="og:description" content="${esc(description ?? site.description)}">
 <meta property="og:type" content="website">
+${meta(ctx)}
 <link rel="icon" href="${href('favicon.svg')}" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
